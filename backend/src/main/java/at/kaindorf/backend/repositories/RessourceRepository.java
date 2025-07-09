@@ -25,5 +25,5 @@ public interface RessourceRepository extends JpaRepository<Ressource, Long> {
     public List<Ressource> findRessourceByTyp(RessourcenTyp typ);
 
     @Query("SELECT r FROM Ressource r WHERE r.inventarNr = ?1")
-    public Ressource findRessourceByInventarNr(Integer inventarNr);
+    public Ressource findRessourceByInventarNr(Long inventarNr);
 }

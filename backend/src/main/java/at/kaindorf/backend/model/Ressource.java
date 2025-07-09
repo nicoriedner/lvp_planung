@@ -23,5 +23,5 @@ public class Ressource {
 
     private boolean isAvailable;
 
-    private int inventarNr;
+    private long inventarNr;
 }

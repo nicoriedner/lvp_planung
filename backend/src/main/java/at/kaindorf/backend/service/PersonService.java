@@ -36,4 +36,11 @@ public class PersonService {
                 .map(personMapper::toDTO)
                 .toList();
     }
+
+    public List<PersonDTO> findByLastName(String lastname) {
+        List<Person> persons = personRepository.findPersonByLastName(lastname);
+        return persons.stream()
+                .map(personMapper::toDTO)
+                .toList();
+    }
 }
