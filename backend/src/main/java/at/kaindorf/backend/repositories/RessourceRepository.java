@@ -9,21 +9,18 @@ import java.util.List;
 
 public interface RessourceRepository extends JpaRepository<Ressource, Long> {
 
-    @Query("SELECT r FROM Ressource r")
-    List<Ressource> findAll();
-
     @Query("SELECT r FROM Ressource r WHERE r.id = ?1")
-    public Ressource findRessourceById(Long id);
+    Ressource findRessourceById(Long id);
 
     @Query("SELECT r FROM Ressource r WHERE r.bezeichnung = ?1")
-    public List<Ressource> findRessourceByBezeichnung(String bezeichnung);
+    List<Ressource> findRessourceByBezeichnung(String bezeichnung);
 
     @Query("SELECT r FROM Ressource r WHERE r.isAvailable = true ")
-    public List<Ressource> findAvailableRessources();
+    List<Ressource> findAvailableRessources();
 
     @Query("SELECT r FROM Ressource r WHERE r.typ = ?1")
-    public List<Ressource> findRessourceByTyp(RessourcenTyp typ);
+    List<Ressource> findRessourceByTyp(RessourcenTyp typ);
 
     @Query("SELECT r FROM Ressource r WHERE r.inventarNr = ?1")
-    public Ressource findRessourceByInventarNr(Long inventarNr);
+    Ressource findRessourceByInventarNr(Long inventarNr);
 }

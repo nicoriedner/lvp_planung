@@ -8,21 +8,18 @@ import java.util.List;
 
 public interface LehrgangRepository extends JpaRepository<Lehrgang, Long> {
 
-    @Query("SELECT l FROM Lehrgang l")
-    List<Lehrgang> findAll();
-
     @Query("SELECT l FROM Lehrgang l WHERE l.id = ?1")
-    public Lehrgang findLehrgangById(Long id);
+    Lehrgang findLehrgangById(Long id);
 
     @Query("SELECT l FROM Lehrgang l WHERE l.bezeichnung = ?1")
-    public Lehrgang findLehrgangByBezeichnung(String bezeichnung);
+    Lehrgang findLehrgangByBezeichnung(String bezeichnung);
 
     @Query("SELECT l FROM Lehrgang l where l.dauer > ?1")
-    public Lehrgang findLehrgangByDauerGreaterThan(int dauer);
+    Lehrgang findLehrgangByDauerGreaterThan(int dauer);
 
     @Query("SELECT l FROM Lehrgang l where l.dauer < ?1")
-    public Lehrgang findLehrgangByDauerLessThan(int dauer);
+    Lehrgang findLehrgangByDauerLessThan(int dauer);
 
     @Query("SELECT l FROM Lehrgang l where l.dauer = ?1")
-    public List<Lehrgang> findLehrgaengeByDauer(int dauer);
+    List<Lehrgang> findLehrgaengeByDauer(int dauer);
 }

@@ -8,9 +8,6 @@ import java.util.List;
 
 public interface KompetenzRepository extends JpaRepository<Kompetenz, Long> {
 
-    @Query("SELECT k FROM Kompetenz k")
-    List<Kompetenz> findAll();
-
     @Query("SELECT k FROM Kompetenz k WHERE k.id = ?1")
     Kompetenz findKompetenzById(Long id);
 

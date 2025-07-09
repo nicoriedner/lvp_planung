@@ -23,6 +23,7 @@ public class Schulungstermin {
 
     private int anzTeilnehmer;
 
+    @Enumerated(EnumType.STRING)
     private Status status;
 
     @ManyToMany

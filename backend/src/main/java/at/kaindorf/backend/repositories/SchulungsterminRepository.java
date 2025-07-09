@@ -9,44 +9,41 @@ import java.util.List;
 
 public interface SchulungsterminRepository extends JpaRepository<Schulungstermin, Long> {
 
-    @Query("SELECT s FROM Schulungstermin s")
-    List<Schulungstermin> findAll();
-
     @Query("SELECT s FROM Schulungstermin s WHERE s.id = ?1")
     Schulungstermin findSchulungsterminById(Long id);
 
     @Query("SELECT s FROM Schulungstermin s WHERE s.anzTeilnehmer > ?1")
-    Schulungstermin findSchulungsterminByAnzTeilnehmerGreaterThan(int anzTeilnehmer);
+    List<Schulungstermin> findSchulungsterminByAnzTeilnehmerGreaterThan(int anzTeilnehmer);
 
     @Query("SELECT s FROM Schulungstermin s WHERE s.anzTeilnehmer < ?1")
-    Schulungstermin findSchulungsterminByAnzTeilnehmerSmallerThan(int anzTeilnehmer);
+    List<Schulungstermin> findSchulungsterminByAnzTeilnehmerSmallerThan(int anzTeilnehmer);
 
     @Query("SELECT s FROM Schulungstermin s where s.anzTeilnehmer = ?1")
-    Schulungstermin findSchulungsterminByAnzTeilnehmer(int anzTeilnehmer);
+    List<Schulungstermin> findSchulungsterminByAnzTeilnehmer(int anzTeilnehmer);
 
     @Query("SELECT s FROM Schulungstermin s WHERE s.status = ?1")
-    Schulungstermin findSchulungsterminByStatus(Status status);
+    List<Schulungstermin> findSchulungsterminByStatus(Status status);
 
     @Query("SELECT s FROM Schulungstermin s WHERE s.startDatum > ?1")
-    Schulungstermin findSchulungsterminByStartDatumAfter(LocalDate startDatum);
+    List<Schulungstermin> findSchulungsterminByStartDatumAfter(LocalDate startDatum);
 
     @Query("SELECT s FROM Schulungstermin s WHERE s.startDatum < ?1")
-    Schulungstermin findSchulungsterminByStartDatumBefore(LocalDate startDatum);
+    List<Schulungstermin> findSchulungsterminByStartDatumBefore(LocalDate startDatum);
 
     @Query("SELECT s FROM Schulungstermin s WHERE s.startDatum = ?1")
-    Schulungstermin findSchulungsterminByStartDatum(LocalDate startDatum);
+    List<Schulungstermin> findSchulungsterminByStartDatum(LocalDate startDatum);
 
     @Query("SELECT s FROM Schulungstermin s WHERE s.endDatum > ?1")
-    Schulungstermin findSchulungsterminByEndDatumAfter(LocalDate endDatum);
+    List<Schulungstermin> findSchulungsterminByEndDatumAfter(LocalDate endDatum);
 
     @Query("SELECT s FROM Schulungstermin s WHERE s.endDatum < ?1")
-    Schulungstermin findSchulungsterminByEndDatumBefore(LocalDate endDatum);
+    List<Schulungstermin> findSchulungsterminByEndDatumBefore(LocalDate endDatum);
 
     @Query("SELECT s FROM Schulungstermin s WHERE s.endDatum = ?1")
-    Schulungstermin findSchulungsterminByEndDatum(LocalDate endDatum);
+    List<Schulungstermin> findSchulungsterminByEndDatum(LocalDate endDatum);
 
     @Query("SELECT s FROM Schulungstermin s WHERE s.startDatum >= ?1 AND s.endDatum <= ?2")
-    Schulungstermin findSchulungsterminByStartDatumAndEndDatumBefore(LocalDate startDatum, LocalDate endDatum);
+    List<Schulungstermin> findSchulungsterminByStartDatumAndEndDatumBefore(LocalDate startDatum, LocalDate endDatum);
 
     @Query("SELECT s FROM Schulungstermin s WHERE s.lehrsaal = ?1")
     List<Schulungstermin> findSchulungstermineByLehrsaal(Lehrsaal lehrsaal);

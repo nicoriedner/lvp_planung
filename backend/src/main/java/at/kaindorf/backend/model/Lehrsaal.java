@@ -24,6 +24,6 @@ public class Lehrsaal {
 
     private String ausstattung;
 
-    @OneToMany
+    @OneToMany(mappedBy = "lehrsaal")
     private List<Schulungstermin> schulungstermine;
 }

@@ -14,33 +14,30 @@ import java.util.List;
 
 public interface PersonRepository extends JpaRepository<Person, Long> {
 
-    @Query("SELECT p FROM Person p")
-    List<Person> findAllPersons();
-
     @Query("SELECT p FROM Person p WHERE p.id = ?1")
-    public Person findPersonById(Long id);
+    Person findPersonById(Long id);
 
     @Query("SELECT p FROM Person p WHERE p.dienstgrad = ?1")
-    public List<Person> findPersonByDienstgrad(Dienstgrad dienstgrad);
+    List<Person> findPersonByDienstgrad(Dienstgrad dienstgrad);
 
     @Query("SELECT p FROM Person p WHERE p.firstName = ?1")
-    public List<Person> findPersonByFirstName(String firstName);
+    List<Person> findPersonByFirstName(String firstName);
 
     @Query("SELECT p FROM Person p WHERE p.lastName = ?1")
-    public List<Person> findPersonByLastName(String lastName);
+    List<Person> findPersonByLastName(String lastName);
 
     @Query("SELECT DISTINCT p FROM Person p JOIN p.kompetenzen k WHERE k IN :kompetenzen")
     List<Person> findPersonsByKompetenzen(@Param("kompetenzen") List<Kompetenz> kompetenzen);
 
     @Query("SELECT p FROM Person p WHERE p.wochenmodell = ?1")
-    public List<Person> findPersonByWochenmodell(List<Wochenmodell> wochenmodell);
+    List<Person> findPersonByWochenmodell(List<Wochenmodell> wochenmodell);
 
     @Query("SELECT p FROM Person p WHERE p.stunden > ?1")
-    public List<Person> findPersonByStundenGreaterThan(double stunden);
+    List<Person> findPersonByStundenGreaterThan(double stunden);
 
     @Query("SELECT p FROM Person p WHERE p.stunden < ?1")
-    public List<Person> findPersonByStundenLessThan(double stunden);
+    List<Person> findPersonByStundenLessThan(double stunden);
 
     @Query("SELECT p FROM Person p WHERE p.stunden = ?1")
-    public List<Person> findPersonByStunden(double stunden);
+    List<Person> findPersonByStunden(double stunden);
 }
