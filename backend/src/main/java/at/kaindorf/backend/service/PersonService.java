@@ -1,0 +1,39 @@
+package at.kaindorf.backend.service;
+
+import at.kaindorf.backend.dto.PersonDTO;
+import at.kaindorf.backend.mapper.KompetenzMapper;
+import at.kaindorf.backend.mapper.PersonMapper;
+import at.kaindorf.backend.model.Kompetenz;
+import at.kaindorf.backend.model.Person;
+import at.kaindorf.backend.repositories.PersonRepository;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Service
+@AllArgsConstructor
+public class PersonService {
+    private final PersonRepository personRepository;
+    private final PersonMapper personMapper;
+
+    public List<PersonDTO> findAll() {
+        List<Person> persons = personRepository.findAll();
+        return persons.stream()
+                .map(personMapper::toDTO)
+                .toList();
+    }
+
+    public PersonDTO findById(Long id) {
+        Person person = personRepository.findById(id).orElse(null);
+        return personMapper.toDTO(person);
+    }
+
+    public List<PersonDTO> findByKompetenzen(List<Kompetenz> kompetenzen) {
+        List<Person> persons = personRepository.findPersonsByKompetenzen(kompetenzen);
+        return persons.stream()
+                .map(personMapper::toDTO)
+                .toList();
+    }
+}

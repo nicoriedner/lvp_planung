@@ -1,6 +1,7 @@
-package at.kaindorf.backend.model;
+package at.kaindorf.backend.dto;
 
-import jakarta.persistence.*;
+import at.kaindorf.backend.model.Schulungstermin;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,20 +11,10 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
-public class Lehrsaal {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+public class LehrsaalDTO {
     private String bezeichnung;
-
     private String beschreibung;
-
     private int sitzPlaetze;
-
     private String ausstattung;
-
-    @OneToMany
     private List<Schulungstermin> schulungstermine;
 }

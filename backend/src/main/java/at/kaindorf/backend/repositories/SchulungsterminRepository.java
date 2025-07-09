@@ -1,15 +1,16 @@
 package at.kaindorf.backend.repositories;
 
-import at.kaindorf.backend.model.Lehrgang;
-import at.kaindorf.backend.model.Lehrsaal;
-import at.kaindorf.backend.model.Schulungstermin;
-import at.kaindorf.backend.model.Status;
+import at.kaindorf.backend.model.*;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public interface SchulungsterminRepository extends JpaRepository<Schulungstermin, Long> {
+
+    @Query("SELECT s FROM Schulungstermin s")
+    List<Schulungstermin> findAll();
 
     @Query("SELECT s FROM Schulungstermin s WHERE s.id = ?1")
     Schulungstermin findSchulungsterminById(Long id);
@@ -48,8 +49,11 @@ public interface SchulungsterminRepository extends JpaRepository<Schulungstermin
     Schulungstermin findSchulungsterminByStartDatumAndEndDatumBefore(LocalDate startDatum, LocalDate endDatum);
 
     @Query("SELECT s FROM Schulungstermin s WHERE s.lehrsaal = ?1")
-    Schulungstermin findSchulungsterminByLehrsaal(Lehrsaal lehrsaal);
+    List<Schulungstermin> findSchulungstermineByLehrsaal(Lehrsaal lehrsaal);
 
-    @Query("select s FROM Schulungstermin s WHERE s.lehrgang = ?1")
-    Schulungstermin findSchulungsterminByLehrgang(Lehrgang lehrgang);
+    @Query("SELECT s FROM Schulungstermin s WHERE s.lehrgang = ?1")
+    List<Schulungstermin> findSchulungstermineByLehrgang(Lehrgang lehrgang);
+
+    @Query("SELECT s FROM Schulungstermin s WHERE s.leiter = ?1")
+    List<Schulungstermin> findSchulungstermineByLeiter(Person leiter);
 }

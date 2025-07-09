@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -17,8 +18,8 @@ public class Schulungstermin {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private LocalDate startDatum;
-    private LocalDate endDatum;
+    private LocalDateTime startDatum;
+    private LocalDateTime endDatum;
 
     private int anzTeilnehmer;
 
@@ -35,4 +36,7 @@ public class Schulungstermin {
 
     @ManyToOne
     private Lehrgang lehrgang;
+
+    @OneToOne
+    private Person leiter;
 }

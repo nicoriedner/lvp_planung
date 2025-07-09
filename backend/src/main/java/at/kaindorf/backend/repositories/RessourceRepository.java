@@ -9,6 +9,9 @@ import java.util.List;
 
 public interface RessourceRepository extends JpaRepository<Ressource, Long> {
 
+    @Query("SELECT r FROM Ressource r")
+    List<Ressource> findAll();
+
     @Query("SELECT r FROM Ressource r WHERE r.id = ?1")
     public Ressource findRessourceById(Long id);
 
@@ -20,4 +23,7 @@ public interface RessourceRepository extends JpaRepository<Ressource, Long> {
 
     @Query("SELECT r FROM Ressource r WHERE r.typ = ?1")
     public List<Ressource> findRessourceByTyp(RessourcenTyp typ);
+
+    @Query("SELECT r FROM Ressource r WHERE r.inventarNr = ?1")
+    public Ressource findRessourceByInventarNr(Integer inventarNr);
 }
