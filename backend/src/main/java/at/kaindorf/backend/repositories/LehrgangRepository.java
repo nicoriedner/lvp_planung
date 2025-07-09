@@ -15,11 +15,11 @@ public interface LehrgangRepository extends JpaRepository<Lehrgang, Long> {
     Lehrgang findLehrgangByBezeichnung(String bezeichnung);
 
     @Query("SELECT l FROM Lehrgang l where l.dauer > ?1")
-    Lehrgang findLehrgangByDauerGreaterThan(int dauer);
+    Lehrgang findLehrgangByDauerGreaterThan(Integer dauer);
 
     @Query("SELECT l FROM Lehrgang l where l.dauer < ?1")
-    Lehrgang findLehrgangByDauerLessThan(int dauer);
+    Lehrgang findLehrgangByDauerLessThan(Integer dauer);
 
     @Query("SELECT l FROM Lehrgang l where l.dauer = ?1")
-    List<Lehrgang> findLehrgaengeByDauer(int dauer);
+    List<Lehrgang> findLehrgaengeByDauer(Integer dauer);
 }

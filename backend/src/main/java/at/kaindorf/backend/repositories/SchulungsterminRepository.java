@@ -13,13 +13,13 @@ public interface SchulungsterminRepository extends JpaRepository<Schulungstermin
     Schulungstermin findSchulungsterminById(Long id);
 
     @Query("SELECT s FROM Schulungstermin s WHERE s.anzTeilnehmer > ?1")
-    List<Schulungstermin> findSchulungsterminByAnzTeilnehmerGreaterThan(int anzTeilnehmer);
+    List<Schulungstermin> findSchulungsterminByAnzTeilnehmerGreaterThan(Integer anzTeilnehmer);
 
     @Query("SELECT s FROM Schulungstermin s WHERE s.anzTeilnehmer < ?1")
-    List<Schulungstermin> findSchulungsterminByAnzTeilnehmerSmallerThan(int anzTeilnehmer);
+    List<Schulungstermin> findSchulungsterminByAnzTeilnehmerSmallerThan(Integer anzTeilnehmer);
 
     @Query("SELECT s FROM Schulungstermin s where s.anzTeilnehmer = ?1")
-    List<Schulungstermin> findSchulungsterminByAnzTeilnehmer(int anzTeilnehmer);
+    List<Schulungstermin> findSchulungsterminByAnzTeilnehmer(Integer anzTeilnehmer);
 
     @Query("SELECT s FROM Schulungstermin s WHERE s.status = ?1")
     List<Schulungstermin> findSchulungsterminByStatus(Status status);

@@ -41,4 +41,9 @@ public class LehrsaalService {
                 .map(lehrsaalMapper::toDTO)
                 .toList();
     }
+
+    public Long createNewLehrsaal(LehrsaalDTO lehrsaalDTO) {
+        Lehrsaal lehrsaal = lehrsaalMapper.toEntity(lehrsaalDTO);
+        return lehrsaalRepository.save(lehrsaal).getId();
+    }
 }

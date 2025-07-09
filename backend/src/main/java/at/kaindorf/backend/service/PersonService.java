@@ -43,4 +43,9 @@ public class PersonService {
                 .map(personMapper::toDTO)
                 .toList();
     }
+
+    public Long createNewPerson(PersonDTO personDTO) {
+        Person person = personMapper.toEntity(personDTO);
+        return personRepository.save(person).getId();
+    }
 }

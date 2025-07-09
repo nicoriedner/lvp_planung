@@ -26,18 +26,18 @@ public interface PersonRepository extends JpaRepository<Person, Long> {
     @Query("SELECT p FROM Person p WHERE p.lastName = ?1")
     List<Person> findPersonByLastName(String lastName);
 
-    @Query("SELECT DISTINCT p FROM Person p JOIN p.kompetenzen k WHERE k IN :kompetenzen")
+    @Query("SELECT DISTINCT p FROM Person p JOIN p.kompetenzen k WHERE k IN ?1")
     List<Person> findPersonsByKompetenzen(@Param("kompetenzen") List<Kompetenz> kompetenzen);
 
-    @Query("SELECT p FROM Person p WHERE p.wochenmodell = ?1")
+    @Query("SELECT p FROM Person p WHERE p.wochenmodell IN ?1")
     List<Person> findPersonByWochenmodell(List<Wochenmodell> wochenmodell);
 
     @Query("SELECT p FROM Person p WHERE p.stunden > ?1")
-    List<Person> findPersonByStundenGreaterThan(double stunden);
+    List<Person> findPersonByStundenGreaterThan(Double stunden);
 
     @Query("SELECT p FROM Person p WHERE p.stunden < ?1")
-    List<Person> findPersonByStundenLessThan(double stunden);
+    List<Person> findPersonByStundenLessThan(Double stunden);
 
     @Query("SELECT p FROM Person p WHERE p.stunden = ?1")
-    List<Person> findPersonByStunden(double stunden);
+    List<Person> findPersonByStunden(Double stunden);
 }

@@ -9,10 +9,7 @@ import at.kaindorf.backend.service.LehrsaalService;
 import at.kaindorf.backend.service.SchulungsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,7 +24,7 @@ public class SchulungsController {
         return ResponseEntity.ok(schulungsService.findAll());
     }
 
-    @GetMapping("/byLeiter/{leiter}")
+    @GetMapping("/leiter/{leiter}")
     public ResponseEntity<List<SchulungsterminDTO>> getAllSchulungsTermineByLeiter(
             @PathVariable Person leiter
             ){
@@ -55,4 +52,18 @@ public class SchulungsController {
         return ResponseEntity.ok(schulungsService.findAllByLehrsaal(lehrsaal));
     }
 
+    @PostMapping("/delete/{id}")
+    public void deleteSchulungstermin(
+            @PathVariable Long id
+    ){
+        schulungsService.deleteSchulungstermin(id);
+        ResponseEntity.ok();
+    }
+
+    @PostMapping("/create")
+    public Long createSchulungstermin(
+            @RequestBody SchulungsterminDTO schulungsterminDTO
+    ){
+        return schulungsService.createNewSchulungstermin(schulungsterminDTO);
+    }
 }
