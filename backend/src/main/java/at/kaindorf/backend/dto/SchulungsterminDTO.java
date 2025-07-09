@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -15,8 +16,8 @@ import java.util.List;
 @NoArgsConstructor
 public class SchulungsterminDTO {
 
-    private LocalDate startDatum;
-    private LocalDate endDatum;
+    private LocalDateTime startDatum;
+    private LocalDateTime endDatum;
     private int anzTeilnehmer;
     private Status status;
     private List<Ressource> ressource;

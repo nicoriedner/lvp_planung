@@ -38,7 +38,7 @@ public class PersonController {
         return ResponseEntity.ok(personService.findByLastName(lastname));
     }
 
-    @GetMapping("/byKompetenzen/{kompetenzen}")
+    @GetMapping("/kompetenz/{kompetenzen}")
     public ResponseEntity<List<PersonDTO>> getPersonByKompetenzen(
             @PathVariable List<Kompetenz> kompetenzen
             ){

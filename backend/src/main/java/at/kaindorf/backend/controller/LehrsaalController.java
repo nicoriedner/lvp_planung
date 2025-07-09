@@ -1,7 +1,9 @@
 package at.kaindorf.backend.controller;
 
 import at.kaindorf.backend.dto.LehrsaalDTO;
+import at.kaindorf.backend.dto.SchulungsterminDTO;
 import at.kaindorf.backend.model.Lehrsaal;
+import at.kaindorf.backend.model.Schulungstermin;
 import at.kaindorf.backend.service.LehrsaalService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -35,4 +37,24 @@ public class LehrsaalController {
         return ResponseEntity.ok(lehrsaalService.findByBezeichnung(bezeichnung));
     }
 
+    @GetMapping("/termin/{termin}")
+    public ResponseEntity<List<LehrsaalDTO>> getLehrsaalBySchulungstermin(
+            @PathVariable Schulungstermin termin
+    ){
+        return ResponseEntity.ok(lehrsaalService.findBySchulungstermin(termin));
+    }
+
+    @PostMapping("/new")
+    public ResponseEntity<Long> createLehrsaal(
+            @RequestBody LehrsaalDTO lehrsaalDTO
+    ){
+        return ResponseEntity.ok(lehrsaalService.createNewLehrsaal(lehrsaalDTO));
+    }
+
+    @PostMapping("/book")
+    public ResponseEntity<Boolean> bookLehrsaal(
+            @RequestBody SchulungsterminDTO schulungsterminDTO
+            ){
+        return ResponseEntity.ok(lehrsaalService.bookLehrsaal(schulungsterminDTO));
+    }
 }
