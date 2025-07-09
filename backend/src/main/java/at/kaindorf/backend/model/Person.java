@@ -19,10 +19,12 @@ public class Person {
     private String firstName;
     private String lastName;
 
-    private Dienstgrad dienstgrad;
-
     private Double stunden;
 
+    @Enumerated(EnumType.STRING)
+    private Dienstgrad dienstgrad;
+
+    @Enumerated(EnumType.STRING)
     private Wochenmodell wochenmodell;
 
     @ManyToMany

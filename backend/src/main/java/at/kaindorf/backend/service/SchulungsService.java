@@ -1,6 +1,7 @@
 package at.kaindorf.backend.service;
 
 import at.kaindorf.backend.dto.SchulungsterminDTO;
+import at.kaindorf.backend.exceptions.SchulungsterminNotFoundException;
 import at.kaindorf.backend.mapper.SchulungsterminMapper;
 import at.kaindorf.backend.model.Lehrgang;
 import at.kaindorf.backend.model.Lehrsaal;
@@ -51,5 +52,16 @@ public class SchulungsService {
                 .stream()
                 .map(schulungsMapper::toDTO)
                 .toList());
+    }
+
+    public void deleteSchulungstermin(Long id) {
+            Schulungstermin termin = schulungsRepository.findById(id)
+                    .orElseThrow(() -> new SchulungsterminNotFoundException(id));
+            schulungsRepository.delete(termin);
+        }
+
+    public Long createNewSchulungstermin(SchulungsterminDTO schulungsterminDTO) {
+        Schulungstermin schulungstermin = schulungsRepository.save(schulungsMapper.toEntity(schulungsterminDTO));
+        return schulungstermin.getId();
     }
 }
