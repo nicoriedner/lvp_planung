@@ -6,10 +6,7 @@ import at.kaindorf.backend.model.Person;
 import at.kaindorf.backend.service.PersonService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -43,6 +40,13 @@ public class PersonController {
             @PathVariable List<Kompetenz> kompetenzen
             ){
         return ResponseEntity.ok(personService.findByKompetenzen(kompetenzen));
+    }
+
+    @PostMapping("/new")
+    public ResponseEntity<Long> createPerson(
+            @RequestBody PersonDTO personDTO
+    ){
+        return ResponseEntity.ok(personService.createNewPerson(personDTO));
     }
 
 }

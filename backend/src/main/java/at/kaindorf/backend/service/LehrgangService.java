@@ -4,6 +4,7 @@ import at.kaindorf.backend.dto.LehrgangDTO;
 import at.kaindorf.backend.mapper.LehrgangMapper;
 import at.kaindorf.backend.model.Lehrgang;
 import at.kaindorf.backend.repositories.LehrgangRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -29,5 +30,32 @@ public class LehrgangService {
                 .stream()
                 .map(lehrgangMapper::toDTO)
                 .toList();
+    }
+
+    public Long createNewLehrgang(LehrgangDTO lehrgangDTO) {
+        Lehrgang lehrgang = lehrgangMapper.toEntity(lehrgangDTO);
+        return lehrgangRepository.save(lehrgang).getId();
+    }
+
+    public void deleteLehrgang(Long id) {
+        if(lehrgangRepository.existsById(id)) {
+            lehrgangRepository.deleteById(id);
+        } else {
+            throw new EntityNotFoundException("Lehrgang mit ID " + id + " nicht gefunden");
+        }
+    }
+
+    public void updateLehrgang(Long id, LehrgangDTO lehrgangDTO) {
+        if(lehrgangRepository.existsById(id)) {
+            Lehrgang lehrgang = lehrgangRepository.findById(id).get();
+            Lehrgang newLehrgang = lehrgangMapper.toEntity(lehrgangDTO);
+            lehrgang.setBeschreibung(newLehrgang.getBeschreibung());
+            lehrgang.setDauer(newLehrgang.getDauer());
+            lehrgang.setBezeichnung(newLehrgang.getBezeichnung());
+            lehrgang.setKompetenzen(newLehrgang.getKompetenzen());
+            lehrgangRepository.save(lehrgang);
+        } else {
+            throw new EntityNotFoundException("Lehrgang mit ID " + id + " nicht gefunden");
+        }
     }
 }

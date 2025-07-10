@@ -52,9 +52,17 @@ public class LehrsaalController {
     }
 
     @PostMapping("/book")
-    public ResponseEntity<Boolean> bookLehrsaal(
+    public ResponseEntity<Long> bookLehrsaal(
             @RequestBody SchulungsterminDTO schulungsterminDTO
             ){
         return ResponseEntity.ok(lehrsaalService.bookLehrsaal(schulungsterminDTO));
+    }
+
+    @PostMapping("/deleteBooking")
+    public void deleteBooking(
+            @RequestBody SchulungsterminDTO schulungsterminDTO
+    ){
+        lehrsaalService.deleteBooking(schulungsterminDTO);
+        ResponseEntity.ok();
     }
 }

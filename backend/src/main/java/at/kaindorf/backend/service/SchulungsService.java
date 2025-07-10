@@ -8,6 +8,7 @@ import at.kaindorf.backend.model.Lehrsaal;
 import at.kaindorf.backend.model.Person;
 import at.kaindorf.backend.model.Schulungstermin;
 import at.kaindorf.backend.repositories.SchulungsterminRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,7 @@ import java.util.List;
 public class SchulungsService {
     private final SchulungsterminMapper schulungsMapper;
     private final SchulungsterminRepository schulungsRepository;
+    private final SchulungsterminRepository schulungsterminRepository;
 
     public List<SchulungsterminDTO> findAll() {
         return (schulungsRepository.findAll()
@@ -63,5 +65,22 @@ public class SchulungsService {
     public Long createNewSchulungstermin(SchulungsterminDTO schulungsterminDTO) {
         Schulungstermin schulungstermin = schulungsRepository.save(schulungsMapper.toEntity(schulungsterminDTO));
         return schulungstermin.getId();
+    }
+
+    public void updateSchulungstermin(Long id, SchulungsterminDTO schulungsterminDTO) {
+        Schulungstermin schulungstermin = schulungsterminRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Schulungstermin mit der ID " + id + " existiert nicht!"));
+        Schulungstermin newSchulungstermin = schulungsMapper.toEntity(schulungsterminDTO);
+
+        schulungstermin.setStatus(newSchulungstermin.getStatus());
+        schulungstermin.setLehrsaal(newSchulungstermin.getLehrsaal());
+        schulungstermin.setLehrgang(newSchulungstermin.getLehrgang());
+        schulungstermin.setAnzTeilnehmer(newSchulungstermin.getAnzTeilnehmer());
+        schulungstermin.setStartDatum(newSchulungstermin.getStartDatum());
+        schulungstermin.setEndDatum(newSchulungstermin.getEndDatum());
+        schulungstermin.setLeiter(newSchulungstermin.getLeiter());
+        schulungstermin.setRessource(newSchulungstermin.getRessource());
+        schulungstermin.setTeilnehmer(newSchulungstermin.getTeilnehmer());
+        schulungsterminRepository.save(schulungstermin);
     }
 }

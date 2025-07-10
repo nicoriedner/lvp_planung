@@ -9,6 +9,7 @@ import at.kaindorf.backend.model.Schulungstermin;
 import at.kaindorf.backend.model.Status;
 import at.kaindorf.backend.repositories.LehrsaalRepository;
 import at.kaindorf.backend.repositories.SchulungsterminRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,12 +59,11 @@ public class LehrsaalService {
         return lehrsaalRepository.save(lehrsaal).getId();
     }
 
-    public boolean bookLehrsaal(SchulungsterminDTO creation) {
+    public Long bookLehrsaal(SchulungsterminDTO creation) {
         Lehrsaal lehrsaal = lehrsaalRepository.findLehrsaalById(creation.getLehrsaal().getId());
 
         if (lehrsaal == null) {
-            System.out.println("Lehrsaal mit ID " + creation.getLehrsaal().getId() + " nicht gefunden.");
-            return false;
+            throw new RuntimeException("Lehrsaal mit ID " + creation.getLehrsaal().getId() + " nicht gefunden.");
         }
 
         List<Schulungstermin> existingSchulungstermine = lehrsaal.getSchulungstermine();
@@ -71,8 +71,7 @@ public class LehrsaalService {
         LocalDateTime newEnd = creation.getEndDatum();
 
         if (newStart == null || newEnd == null || newStart.isAfter(newEnd)) {
-            System.out.println("Ungültiger Zeitraum für den neuen Termin.");
-            return false;
+            throw new RuntimeException("Ungültiger Zeitraum für den neuen Termin.");
         }
 
         for (Schulungstermin existingSchulungstermin : existingSchulungstermine) {
@@ -80,13 +79,11 @@ public class LehrsaalService {
             LocalDateTime existingEnd = existingSchulungstermin.getEndDatum();
 
             if (existingStart == null || existingEnd == null) {
-                log.info("Schulungstermin ID " + existingSchulungstermin.getId() + " hat ungültige Daten.");
-                continue;
+                throw new RuntimeException("Schulungstermin ID " + existingSchulungstermin.getId() + " hat ungültige Daten.");
             }
 
             if (newStart.isBefore(existingEnd) && newEnd.isAfter(existingStart)) {
-                log.info("Lehrsaal " + lehrsaal.getBezeichnung() + " ist bereits belegt (Überlappung mit Termin ID: " + existingSchulungstermin.getId() + ").");
-                return false;
+                throw new RuntimeException("Lehrsaal " + lehrsaal.getBezeichnung() + " ist bereits belegt (Überlappung mit Termin ID: " + existingSchulungstermin.getId() + ").");
             }
         }
 
@@ -95,8 +92,44 @@ public class LehrsaalService {
     Schulungstermin newBooking = schulungsterminMapper.toEntity(creation);
     newBooking.setLehrsaal(lehrsaal);
     newBooking.setStatus(Status.GEPLANT);
-    schulungsterminRepository.save(newBooking);
+    newBooking = schulungsterminRepository.save(newBooking);
+        return newBooking.getId();
 
-        return true;
+    }
+
+    public void deleteBooking(SchulungsterminDTO dto) {
+        Lehrsaal lehrsaal = lehrsaalRepository.findLehrsaalById(dto.getLehrsaal().getId());
+        if (lehrsaal == null) {
+            throw new RuntimeException("Der Lehrsaal mit der ID " + lehrsaal.getId() + " existiert nicht.");
+        }
+
+        Schulungstermin termin = schulungsterminRepository.findSchulungsterminByLehrsaalAndStartDatumAndEndDatum(
+                lehrsaal, dto.getStartDatum(), dto.getEndDatum());
+
+        if (termin != null) {
+            schulungsterminRepository.delete(termin);
+            log.info("Schulungstermin erfolgreich gelöscht.");
+        }
+    }
+
+    public void updateBooking(Long id, SchulungsterminDTO schulungsterminDTO)
+    {
+        if (!schulungsterminRepository.existsById(id)) {
+            throw new EntityNotFoundException("Schulungstermin mit ID " + id + " existiert nicht.");
+        }
+
+        Schulungstermin schulungstermin = schulungsterminRepository.findById(id).get();
+        Schulungstermin newSchulungstermin = schulungsterminMapper.toEntity(schulungsterminDTO);
+
+        schulungstermin.setStartDatum(newSchulungstermin.getStartDatum());
+        schulungstermin.setEndDatum(newSchulungstermin.getEndDatum());
+        schulungstermin.setStatus(newSchulungstermin.getStatus());
+        schulungstermin.setLehrsaal(newSchulungstermin.getLehrsaal());
+        schulungstermin.setLehrgang(newSchulungstermin.getLehrgang());
+        schulungstermin.setAnzTeilnehmer(newSchulungstermin.getAnzTeilnehmer());
+        schulungstermin.setLeiter(newSchulungstermin.getLeiter());
+        schulungstermin.setTeilnehmer(newSchulungstermin.getTeilnehmer());
+        schulungstermin.setRessource(newSchulungstermin.getRessource());
+        schulungsterminRepository.save(schulungstermin);
     }
 }

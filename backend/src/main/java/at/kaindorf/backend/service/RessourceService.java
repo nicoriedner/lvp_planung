@@ -5,6 +5,7 @@ import at.kaindorf.backend.mapper.RessourceMapper;
 import at.kaindorf.backend.model.Ressource;
 import at.kaindorf.backend.model.RessourcenTyp;
 import at.kaindorf.backend.repositories.RessourceRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -51,5 +52,17 @@ public class RessourceService {
 
     public RessourceDTO findRessourceByInventarNr(Long inventarNr) {
         return ressourceMapper.toDTO(ressourceRepository.findRessourceByInventarNr(inventarNr));
+    }
+
+    public Long createNewRessource(RessourceDTO ressourceDTO) {
+        Ressource ressource = ressourceMapper.toRessource(ressourceDTO);
+        return ressourceRepository.save(ressource).getId();
+    }
+
+    public void deleteRessourceById(Long id) {
+        if(ressourceRepository.findById(id) == null) {
+            throw new EntityNotFoundException("Ressource mit der ID " + id + " nicht gefunden");
+        }
+        ressourceRepository.deleteById(id);
     }
 }

@@ -6,6 +6,7 @@ import at.kaindorf.backend.mapper.PersonMapper;
 import at.kaindorf.backend.model.Kompetenz;
 import at.kaindorf.backend.model.Person;
 import at.kaindorf.backend.repositories.PersonRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -47,5 +48,27 @@ public class PersonService {
     public Long createNewPerson(PersonDTO personDTO) {
         Person person = personMapper.toEntity(personDTO);
         return personRepository.save(person).getId();
+    }
+
+    public void removePerson(Long id) {
+        if(personRepository.findPersonById(id) == null) {
+            throw new EntityNotFoundException("Person mit der ID " + id + " existiert nicht");
+        }
+        personRepository.deleteById(id);
+    }
+
+    public void updatePerson(Long id, PersonDTO personDTO) {
+        Person person = personRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Person mit ID " + id + " existiert nicht!"));
+
+        Person updatedPerson = personMapper.toEntity(personDTO);
+        updatedPerson.setId(id);
+        person.setFirstName(updatedPerson.getFirstName());
+        person.setLastName(updatedPerson.getLastName());
+        person.setStunden(updatedPerson.getStunden());
+        person.setWochenmodell(updatedPerson.getWochenmodell());
+        person.setDienstgrad(updatedPerson.getDienstgrad());
+        person.setSchulungstermine(updatedPerson.getSchulungstermine());
+        personRepository.save(person);
     }
 }

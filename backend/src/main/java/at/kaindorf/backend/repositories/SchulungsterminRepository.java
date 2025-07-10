@@ -7,11 +7,12 @@ import org.springframework.data.jpa.repository.Query;
 import java.time.LocalDateTime;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 public interface SchulungsterminRepository extends JpaRepository<Schulungstermin, Long> {
 
     @Query("SELECT s FROM Schulungstermin s WHERE s.id = ?1")
-    Schulungstermin findSchulungsterminById(Long id);
+    Optional<Schulungstermin> findSchulungsterminById(Long id);
 
     @Query("SELECT s FROM Schulungstermin s WHERE s.anzTeilnehmer > ?1")
     List<Schulungstermin> findSchulungsterminByAnzTeilnehmerGreaterThan(Integer anzTeilnehmer);
@@ -43,8 +44,8 @@ public interface SchulungsterminRepository extends JpaRepository<Schulungstermin
     @Query("SELECT s FROM Schulungstermin s WHERE s.endDatum = ?1")
     List<Schulungstermin> findSchulungsterminByEndDatum(LocalDateTime endDatum);
 
-    @Query("SELECT s FROM Schulungstermin s WHERE s.startDatum >= ?1 AND s.endDatum <= ?2")
-    List<Schulungstermin> findSchulungsterminByStartDatumAndEndDatumBefore(LocalDateTime startDatum, LocalDateTime endDatum);
+    @Query("SELECT s FROM Schulungstermin s WHERE s.lehrsaal = ?1 AND s.startDatum = ?2 AND s.endDatum = ?3")
+    Schulungstermin findSchulungsterminByLehrsaalAndStartDatumAndEndDatum(Lehrsaal lehrsaal, LocalDateTime startDatum, LocalDateTime endDatum);
 
     @Query("SELECT s FROM Schulungstermin s WHERE s.lehrsaal = ?1")
     List<Schulungstermin> findSchulungstermineByLehrsaal(Lehrsaal lehrsaal);
