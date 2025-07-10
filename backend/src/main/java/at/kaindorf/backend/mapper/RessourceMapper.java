@@ -7,5 +7,5 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface RessourceMapper {
     RessourceDTO toDTO(Ressource ressource);
-    Ressource toRessource(RessourceDTO ressourceDTO);
+    Ressource toEntity(RessourceDTO ressourceDTO);
 }

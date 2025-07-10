@@ -55,14 +55,23 @@ public class RessourceService {
     }
 
     public Long createNewRessource(RessourceDTO ressourceDTO) {
-        Ressource ressource = ressourceMapper.toRessource(ressourceDTO);
+        Ressource ressource = ressourceMapper.toEntity(ressourceDTO);
         return ressourceRepository.save(ressource).getId();
     }
 
-    public void deleteRessourceById(Long id) {
+    public void deleteRessource(Long id) {
         if(ressourceRepository.findById(id) == null) {
             throw new EntityNotFoundException("Ressource mit der ID " + id + " nicht gefunden");
         }
         ressourceRepository.deleteById(id);
+    }
+
+    public void updateRessource(Long id, RessourceDTO ressourceDTO) {
+        if(!ressourceRepository.existsById(id)) {
+            throw new EntityNotFoundException("Ressource mit der ID " + id + " nicht gefunden");
+        }
+        Ressource ressource = ressourceMapper.toEntity(ressourceDTO);
+        ressource.setId(id);
+        ressourceRepository.save(ressource);
     }
 }
