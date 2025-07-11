@@ -28,7 +28,7 @@ public class PersonController {
         return ResponseEntity.ok(personService.findById(id));
     }
 
-    @GetMapping("/{lastname}")
+    @GetMapping("/nachname/{lastname}")
     public ResponseEntity<List<PersonDTO>> getPersonByLastname(
             @PathVariable String lastname
     ){

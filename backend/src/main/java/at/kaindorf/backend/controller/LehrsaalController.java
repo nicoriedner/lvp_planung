@@ -6,6 +6,7 @@ import at.kaindorf.backend.model.Lehrsaal;
 import at.kaindorf.backend.model.Schulungstermin;
 import at.kaindorf.backend.service.LehrsaalService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.java.Log;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +24,13 @@ public class LehrsaalController {
         return ResponseEntity.ok(lehrsaalService.findAll());
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<LehrsaalDTO> getLehrsaalById(
+            @PathVariable Long id
+    ){
+        return ResponseEntity.ok(lehrsaalService.findById(id));
+    }
+
     @GetMapping("/minPlaetze/{minAnz}")
     public ResponseEntity<List<LehrsaalDTO>> getLehrsaalByMaxPlaetze(
             @PathVariable int minAnz
@@ -30,7 +38,7 @@ public class LehrsaalController {
         return ResponseEntity.ok(lehrsaalService.findAllWithMinSitzPlaetze(minAnz));
     }
 
-    @GetMapping("/{bezeichnung}")
+    @GetMapping("/name/{bezeichnung}")
     public ResponseEntity<LehrsaalDTO> getLehrsaalByBezeichnung(
             @PathVariable String bezeichnung
     ){

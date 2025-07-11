@@ -55,6 +55,13 @@ public class SchulungsService {
                 .toList());
     }
 
+    public SchulungsterminDTO findById(Long id) {
+        if(!schulungsRepository.findById(id).isPresent()) {
+            throw new SchulungsterminNotFoundException(id);
+        }
+        return schulungsMapper.toDTO(schulungsterminRepository.findById(id).get());
+    }
+
     public void deleteSchulungstermin(Long id) {
             Schulungstermin termin = schulungsRepository.findById(id)
                     .orElseThrow(() -> new SchulungsterminNotFoundException(id));

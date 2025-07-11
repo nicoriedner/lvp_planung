@@ -21,7 +21,7 @@ public class KompetenzController {
         return ResponseEntity.ok(kompetenzService.findAllKompetenzen());
     }
 
-    @GetMapping("/{name}")
+    @GetMapping("/name/{name}")
     public ResponseEntity<KompetenzDTO> getKompetenzByName(
             @PathVariable String name
     ){

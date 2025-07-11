@@ -24,6 +24,13 @@ public class SchulungsController {
         return ResponseEntity.ok(schulungsService.findAll());
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<SchulungsterminDTO> getSchulungstermine(
+            @PathVariable Long id
+    ){
+        return ResponseEntity.ok(schulungsService.findById(id));
+    }
+
     @GetMapping("/leiter/{leiter}")
     public ResponseEntity<List<SchulungsterminDTO>> getAllSchulungsTermineByLeiter(
             @PathVariable Person leiter

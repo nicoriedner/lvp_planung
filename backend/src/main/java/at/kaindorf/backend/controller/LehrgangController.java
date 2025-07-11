@@ -22,7 +22,14 @@ public class LehrgangController {
         return ResponseEntity.ok(lehrgangService.findAllLehrgaenge());
     }
 
-    @GetMapping("/{bezeichnung}")
+    @GetMapping("/{id}")
+    public ResponseEntity<LehrgangDTO> getLehrgangById(
+            @PathVariable Long id
+    ){
+        return ResponseEntity.ok(lehrgangService.findById(id));
+    }
+
+    @GetMapping("/name/{bezeichnung}")
     public ResponseEntity<LehrgangDTO> getLehrgangByBezeichnung(
             @PathVariable String bezeichnung
     ){

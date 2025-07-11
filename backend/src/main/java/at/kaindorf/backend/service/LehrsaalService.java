@@ -36,6 +36,13 @@ public class LehrsaalService {
                 .toList();
     }
 
+    public LehrsaalDTO findById(Long id) {
+        if(!lehrsaalRepository.findById(id).isPresent()) {
+            throw new LehrsaalNotFoundException(id);
+        }
+        return lehrsaalMapper.toDTO(lehrsaalRepository.findById(id).get());
+    }
+
     public List<LehrsaalDTO> findAllWithMinSitzPlaetze(int minSitzPlaetze) {
         List<Lehrsaal> lehrsaele = lehrsaalRepository.findLehrsaalBySitzPlaetzeGreaterThanEqual(minSitzPlaetze);
         return lehrsaele.stream()
@@ -137,7 +144,6 @@ public class LehrsaalService {
         if(!lehrsaalRepository.findById(id).isPresent()) {
             throw new LehrsaalNotFoundException(id);
         }
-        Lehrsaal lehrsaal = lehrsaalRepository.findById(id).get();
         Lehrsaal newLehrsaal = lehrsaalMapper.toEntity(lehrsaalDTO);
         newLehrsaal.setId(id);
         lehrsaalRepository.save(newLehrsaal);

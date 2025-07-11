@@ -25,8 +25,10 @@ public class PersonService {
     }
 
     public PersonDTO findById(Long id) {
-        Person person = personRepository.findById(id).orElse(null);
-        return personMapper.toDTO(person);
+        if(!personRepository.findById(id).isPresent()) {
+            throw new PersonNotFoundException(id);
+        }
+        return personMapper.toDTO(personRepository.findById(id).get());
     }
 
     public List<PersonDTO> findByKompetenzen(List<Kompetenz> kompetenzen) {

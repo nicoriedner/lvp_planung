@@ -32,6 +32,13 @@ public class LehrgangService {
                 .toList();
     }
 
+    public LehrgangDTO findById(Long id) {
+        if(!lehrgangRepository.findById(id).isPresent()) {
+            throw new LehrgangNotFoundException(id);
+        }
+        return lehrgangMapper.toDTO(lehrgangRepository.findById(id).get());
+    }
+
     public Long createNewLehrgang(LehrgangDTO lehrgangDTO) {
         Lehrgang lehrgang = lehrgangMapper.toEntity(lehrgangDTO);
         return lehrgangRepository.save(lehrgang).getId();

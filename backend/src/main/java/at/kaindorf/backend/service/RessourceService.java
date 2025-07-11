@@ -25,6 +25,9 @@ public class RessourceService {
     }
 
     public RessourceDTO findById(Long id) {
+        if(!ressourceRepository.findById(id).isPresent()) {
+            throw new RessourceNotFoundException(id);
+        }
         return ressourceMapper.toDTO(ressourceRepository.findRessourceById(id));
     }
 
