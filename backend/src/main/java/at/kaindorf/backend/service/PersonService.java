@@ -1,6 +1,7 @@
 package at.kaindorf.backend.service;
 
 import at.kaindorf.backend.dto.PersonDTO;
+import at.kaindorf.backend.exceptions.PersonNotFoundException;
 import at.kaindorf.backend.mapper.KompetenzMapper;
 import at.kaindorf.backend.mapper.PersonMapper;
 import at.kaindorf.backend.model.Kompetenz;
@@ -8,6 +9,7 @@ import at.kaindorf.backend.model.Person;
 import at.kaindorf.backend.repositories.PersonRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -52,14 +54,14 @@ public class PersonService {
 
     public void deletePerson(Long id) {
         if(personRepository.findPersonById(id) == null) {
-            throw new EntityNotFoundException("Person mit ID " + id + " existiert nicht");
+            throw new PersonNotFoundException(id);
         }
         personRepository.deleteById(id);
     }
 
     public void updatePerson(Long id, PersonDTO personDTO) {
         Person person = personRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Person mit ID " + id + " existiert nicht!"));
+                .orElseThrow(() -> new PersonNotFoundException(id));
 
         Person newPerson = personMapper.toEntity(personDTO);
         newPerson.setId(id);

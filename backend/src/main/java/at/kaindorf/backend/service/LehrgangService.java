@@ -1,6 +1,7 @@
 package at.kaindorf.backend.service;
 
 import at.kaindorf.backend.dto.LehrgangDTO;
+import at.kaindorf.backend.exceptions.LehrgangNotFoundException;
 import at.kaindorf.backend.mapper.LehrgangMapper;
 import at.kaindorf.backend.model.Lehrgang;
 import at.kaindorf.backend.repositories.LehrgangRepository;
@@ -41,7 +42,7 @@ public class LehrgangService {
         if(lehrgangRepository.existsById(id)) {
             lehrgangRepository.deleteById(id);
         } else {
-            throw new EntityNotFoundException("Lehrgang mit ID " + id + " nicht gefunden");
+            throw new LehrgangNotFoundException(id);
         }
     }
 
@@ -52,7 +53,7 @@ public class LehrgangService {
             newLehrgang.setId(lehrgang.getId());
             lehrgangRepository.save(newLehrgang);
         } else {
-            throw new EntityNotFoundException("Lehrgang mit ID " + id + " nicht gefunden");
+            throw new LehrgangNotFoundException(id);
         }
     }
 }

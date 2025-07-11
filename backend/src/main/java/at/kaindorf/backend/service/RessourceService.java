@@ -1,6 +1,7 @@
 package at.kaindorf.backend.service;
 
 import at.kaindorf.backend.dto.RessourceDTO;
+import at.kaindorf.backend.exceptions.RessourceNotFoundException;
 import at.kaindorf.backend.mapper.RessourceMapper;
 import at.kaindorf.backend.model.Ressource;
 import at.kaindorf.backend.model.RessourcenTyp;
@@ -60,14 +61,14 @@ public class RessourceService {
 
     public void deleteRessource(Long id) {
         if(ressourceRepository.findById(id) == null) {
-            throw new EntityNotFoundException("Ressource mit ID " + id + " nicht gefunden");
+            throw new RessourceNotFoundException(id);
         }
         ressourceRepository.deleteById(id);
     }
 
     public void updateRessource(Long id, RessourceDTO ressourceDTO) {
         if(!ressourceRepository.existsById(id)) {
-            throw new EntityNotFoundException("Ressource mit ID " + id + " nicht gefunden");
+            throw new RessourceNotFoundException(id);
         }
         Ressource ressource = ressourceMapper.toEntity(ressourceDTO);
         ressource.setId(id);

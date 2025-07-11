@@ -2,6 +2,8 @@ package at.kaindorf.backend.service;
 
 import at.kaindorf.backend.dto.LehrsaalDTO;
 import at.kaindorf.backend.dto.SchulungsterminDTO;
+import at.kaindorf.backend.exceptions.LehrsaalNotFoundException;
+import at.kaindorf.backend.exceptions.SchulungsterminNotFoundException;
 import at.kaindorf.backend.mapper.LehrsaalMapper;
 import at.kaindorf.backend.mapper.SchulungsterminMapper;
 import at.kaindorf.backend.model.Lehrsaal;
@@ -58,7 +60,7 @@ public class LehrsaalService {
         Lehrsaal lehrsaal = lehrsaalRepository.findLehrsaalById(creation.getLehrsaal().getId());
 
         if (lehrsaal == null) {
-            throw new RuntimeException("Lehrsaal mit ID " + creation.getLehrsaal().getId() + " nicht gefunden.");
+            throw new LehrsaalNotFoundException(lehrsaal.getId());
         }
 
         List<Schulungstermin> existingSchulungstermine = lehrsaal.getSchulungstermine();
@@ -95,7 +97,7 @@ public class LehrsaalService {
     public void deleteBooking(SchulungsterminDTO dto) {
         Lehrsaal lehrsaal = lehrsaalRepository.findLehrsaalById(dto.getLehrsaal().getId());
         if (lehrsaal == null) {
-            throw new RuntimeException("Der Lehrsaal mit der ID " + lehrsaal.getId() + " existiert nicht.");
+            throw new LehrsaalNotFoundException(lehrsaal.getId());
         }
 
         Schulungstermin termin = schulungsterminRepository.findSchulungsterminByLehrsaalAndStartDatumAndEndDatum(
@@ -110,7 +112,7 @@ public class LehrsaalService {
     public void updateBooking(Long id, SchulungsterminDTO schulungsterminDTO)
     {
         if (!schulungsterminRepository.existsById(id)) {
-            throw new EntityNotFoundException("Schulungstermin mit ID " + id + " existiert nicht.");
+            throw new SchulungsterminNotFoundException(id);
         }
 
         Schulungstermin schulungstermin = schulungsterminRepository.findById(id).get();
@@ -127,14 +129,14 @@ public class LehrsaalService {
 
     public void deleteLehrsaal(Long id) {
         if(!lehrsaalRepository.findById(id).isPresent()) {
-            throw new EntityNotFoundException("Lehrsaal mit ID " + id + " existiert nicht.");
+            throw new LehrsaalNotFoundException(id);
         }
         lehrsaalRepository.deleteById(id);
     }
 
     public void updateLehrsaal(Long id, LehrsaalDTO lehrsaalDTO) {
         if(!lehrsaalRepository.findById(id).isPresent()) {
-            throw new EntityNotFoundException("Lehrsaal mit ID " + id + " existiert nicht.");
+            throw new LehrsaalNotFoundException(id);
         }
         Lehrsaal lehrsaal = lehrsaalRepository.findById(id).get();
         Lehrsaal newLehrsaal = lehrsaalMapper.toEntity(lehrsaalDTO);

@@ -2,6 +2,7 @@ package at.kaindorf.backend.service;
 
 import at.kaindorf.backend.dto.LoginRequestDTO;
 import at.kaindorf.backend.dto.UserDTO;
+import at.kaindorf.backend.exceptions.UserNotFoundException;
 import at.kaindorf.backend.mapper.UserMapper;
 import at.kaindorf.backend.model.User;
 import at.kaindorf.backend.repositories.UserRepository;
@@ -90,7 +91,7 @@ public class UserService {
         Optional<User> user = userRepository.findById(id);
 
         if (user.isEmpty()) {
-            throw new RuntimeException("User not found");
+            throw new UserNotFoundException(id);
         }
         return userMapper.toDTO(user.get());
     }
