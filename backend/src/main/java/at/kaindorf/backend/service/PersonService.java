@@ -50,7 +50,7 @@ public class PersonService {
         return personRepository.save(person).getId();
     }
 
-    public void removePerson(Long id) {
+    public void deletePerson(Long id) {
         if(personRepository.findPersonById(id) == null) {
             throw new EntityNotFoundException("Person mit der ID " + id + " existiert nicht");
         }

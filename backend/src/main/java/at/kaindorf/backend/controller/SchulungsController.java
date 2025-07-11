@@ -61,9 +61,18 @@ public class SchulungsController {
     }
 
     @PostMapping("/create")
-    public Long createSchulungstermin(
+    public ResponseEntity<Long> createSchulungstermin(
             @RequestBody SchulungsterminDTO schulungsterminDTO
     ){
-        return schulungsService.createNewSchulungstermin(schulungsterminDTO);
+        return ResponseEntity.ok(schulungsService.createNewSchulungstermin(schulungsterminDTO));
+    }
+
+    @PostMapping("/update/{id}")
+    public void updateSchulungstermin(
+            @PathVariable Long id,
+            @RequestBody SchulungsterminDTO schulungstermin
+    ){
+        schulungsService.updateSchulungstermin(id, schulungstermin);
+        ResponseEntity.ok();
     }
 }

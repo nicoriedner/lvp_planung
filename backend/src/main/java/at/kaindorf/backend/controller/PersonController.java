@@ -38,7 +38,7 @@ public class PersonController {
     @GetMapping("/kompetenz/{kompetenzen}")
     public ResponseEntity<List<PersonDTO>> getPersonByKompetenzen(
             @PathVariable List<Kompetenz> kompetenzen
-            ){
+    ){
         return ResponseEntity.ok(personService.findByKompetenzen(kompetenzen));
     }
 
@@ -49,4 +49,20 @@ public class PersonController {
         return ResponseEntity.ok(personService.createNewPerson(personDTO));
     }
 
+    @PostMapping("/delete/{id}")
+    public void deletePerson(
+            @PathVariable long id
+    ){
+        personService.deletePerson(id);
+        ResponseEntity.ok();
+    }
+
+    @PostMapping("/update/{id}")
+    public void updatePerson(
+            @PathVariable Long id,
+            @RequestBody PersonDTO personDTO
+    ){
+        personService.updatePerson(id, personDTO);
+        ResponseEntity.ok();
+    }
 }

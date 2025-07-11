@@ -54,15 +54,24 @@ public class LehrsaalController {
     @PostMapping("/book")
     public ResponseEntity<Long> bookLehrsaal(
             @RequestBody SchulungsterminDTO schulungsterminDTO
-            ){
+    ){
         return ResponseEntity.ok(lehrsaalService.bookLehrsaal(schulungsterminDTO));
     }
 
-    @PostMapping("/deleteBooking")
+    @PostMapping("/deleteBooking/{termin}")
     public void deleteBooking(
             @RequestBody SchulungsterminDTO schulungsterminDTO
     ){
         lehrsaalService.deleteBooking(schulungsterminDTO);
         ResponseEntity.ok();
     }
+
+    @PostMapping("/update/{id}")
+    public void updateLehrsaal(
+            @PathVariable Long id,
+            @RequestBody SchulungsterminDTO schulungsterminDTO
+    ){
+        lehrsaalService.updateBooking(id, schulungsterminDTO);
+    }
+
 }

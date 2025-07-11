@@ -56,4 +56,28 @@ public class RessourceController {
     ){
         return ResponseEntity.ok(ressourceService.findRessourceByInventarNr(nr));
     }
+
+    @PostMapping("/delete/{id}")
+    public void deleteRessource(
+            @PathVariable Long id
+    ){
+        ressourceService.deleteRessource(id);
+        ResponseEntity.ok();
+    }
+
+    @PostMapping("/create")
+    public ResponseEntity<Long> createRessource(
+            @RequestBody RessourceDTO ressource
+    ){
+        return ResponseEntity.ok(ressourceService.createNewRessource(ressource));
+    }
+
+    @PostMapping("/update/{id}")
+    public void updateRessource(
+            @PathVariable Long id,
+            @RequestBody RessourceDTO ressource
+    ){
+        ressourceService.updateRessource(id, ressource);
+        ResponseEntity.ok();
+    }
 }

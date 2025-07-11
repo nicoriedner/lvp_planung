@@ -35,4 +35,28 @@ public class LehrgangController {
     ) {
         return ResponseEntity.ok(lehrgangService.findLehrgangByDauer(dauer));
     }
+
+    @PostMapping("/create")
+    public ResponseEntity<Long> createLehrgang(
+            @RequestBody LehrgangDTO lehrgangDTO
+    ){
+        return ResponseEntity.ok(lehrgangService.createNewLehrgang(lehrgangDTO));
+    }
+
+    @PostMapping("/delete/{id}")
+    public void deleteLehrgang(
+            @PathVariable Long id
+    ){
+        lehrgangService.deleteLehrgang(id);
+        ResponseEntity.ok();
+    }
+
+    @PostMapping("/update/{id}")
+    public void updateLehrgang(
+            @PathVariable Long id,
+            @RequestBody LehrgangDTO lehrgangDTO
+    ){
+        lehrgangService.updateLehrgang(id, lehrgangDTO);
+        ResponseEntity.ok();
+    }
 }

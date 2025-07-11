@@ -15,7 +15,9 @@ public class RegisterController {
     private final UserService userService;
 
     @PostMapping
-    public ResponseEntity<String> register(@RequestBody RegisterRequestDTO registerDTO) {
+    public ResponseEntity<String> register(
+            @RequestBody RegisterRequestDTO registerDTO
+    ){
         try {
             userService.register(registerDTO.getUsername(), registerDTO.getPassword(), registerDTO.getEmail(), registerDTO.getBirthdate(), registerDTO.getFirstName(), registerDTO.getLastName());
             return ResponseEntity.ok("User registered successfully");
