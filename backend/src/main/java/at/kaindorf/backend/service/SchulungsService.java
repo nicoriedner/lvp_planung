@@ -69,7 +69,7 @@ public class SchulungsService {
 
     public void updateSchulungstermin(Long id, SchulungsterminDTO schulungsterminDTO) {
         Schulungstermin schulungstermin = schulungsterminRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Schulungstermin mit der ID " + id + " existiert nicht!"));
+                .orElseThrow(() -> new EntityNotFoundException("Schulungstermin mit ID " + id + " existiert nicht!"));
         Schulungstermin newSchulungstermin = schulungsMapper.toEntity(schulungsterminDTO);
 
         schulungstermin.setStatus(newSchulungstermin.getStatus());

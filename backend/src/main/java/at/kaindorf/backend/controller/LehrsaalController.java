@@ -44,13 +44,6 @@ public class LehrsaalController {
         return ResponseEntity.ok(lehrsaalService.findBySchulungstermin(termin));
     }
 
-    @PostMapping("/new")
-    public ResponseEntity<Long> createLehrsaal(
-            @RequestBody LehrsaalDTO lehrsaalDTO
-    ){
-        return ResponseEntity.ok(lehrsaalService.createNewLehrsaal(lehrsaalDTO));
-    }
-
     @PostMapping("/book")
     public ResponseEntity<Long> bookLehrsaal(
             @RequestBody SchulungsterminDTO schulungsterminDTO
@@ -66,12 +59,35 @@ public class LehrsaalController {
         ResponseEntity.ok();
     }
 
-    @PostMapping("/update/{id}")
-    public void updateLehrsaal(
+    @PostMapping("/updatBooking/{id}")
+    public void updateBooking(
             @PathVariable Long id,
             @RequestBody SchulungsterminDTO schulungsterminDTO
     ){
         lehrsaalService.updateBooking(id, schulungsterminDTO);
     }
 
+    @PostMapping("/create")
+    public ResponseEntity<Long> createLehrsaal(
+            @RequestBody LehrsaalDTO lehrsaalDTO
+    ){
+        return ResponseEntity.ok(lehrsaalService.createNewLehrsaal(lehrsaalDTO));
+    }
+
+    @PostMapping("/delete/{id}")
+    public void deleteLehrsaal(
+            @PathVariable Long id
+    ){
+        lehrsaalService.deleteLehrsaal(id);
+        ResponseEntity.ok();
+    }
+
+    @PostMapping("/update/{id}")
+    public void updateLehrsaal(
+            @PathVariable Long id,
+            @RequestBody LehrsaalDTO lehrsaalDTO
+    ){
+        lehrsaalService.updateLehrsaal(id, lehrsaalDTO);
+        ResponseEntity.ok();
+    }
 }

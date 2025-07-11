@@ -54,11 +54,6 @@ public class LehrsaalService {
                 .toList();
     }
 
-    public Long createNewLehrsaal(LehrsaalDTO lehrsaalDTO) {
-        Lehrsaal lehrsaal = lehrsaalMapper.toEntity(lehrsaalDTO);
-        return lehrsaalRepository.save(lehrsaal).getId();
-    }
-
     public Long bookLehrsaal(SchulungsterminDTO creation) {
         Lehrsaal lehrsaal = lehrsaalRepository.findLehrsaalById(creation.getLehrsaal().getId());
 
@@ -131,5 +126,27 @@ public class LehrsaalService {
         schulungstermin.setTeilnehmer(newSchulungstermin.getTeilnehmer());
         schulungstermin.setRessource(newSchulungstermin.getRessource());
         schulungsterminRepository.save(schulungstermin);
+    }
+
+    public Long createNewLehrsaal(LehrsaalDTO lehrsaalDTO) {
+        Lehrsaal lehrsaal = lehrsaalMapper.toEntity(lehrsaalDTO);
+        return lehrsaalRepository.save(lehrsaal).getId();
+    }
+
+    public void deleteLehrsaal(Long id) {
+        if(!lehrsaalRepository.findById(id).isPresent()) {
+            throw new EntityNotFoundException("Lehrsaal mit ID " + id + " existiert nicht.");
+        }
+        lehrsaalRepository.deleteById(id);
+    }
+
+    public void updateLehrsaal(Long id, LehrsaalDTO lehrsaalDTO) {
+        if(!lehrsaalRepository.findById(id).isPresent()) {
+            throw new EntityNotFoundException("Lehrsaal mit ID " + id + " existiert nicht.");
+        }
+        Lehrsaal lehrsaal = lehrsaalRepository.findById(id).get();
+        Lehrsaal newLehrsaal = lehrsaalMapper.toEntity(lehrsaalDTO);
+        newLehrsaal.setId(id);
+        lehrsaalRepository.save(newLehrsaal);
     }
 }

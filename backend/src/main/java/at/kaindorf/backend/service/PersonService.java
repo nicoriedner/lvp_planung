@@ -52,7 +52,7 @@ public class PersonService {
 
     public void deletePerson(Long id) {
         if(personRepository.findPersonById(id) == null) {
-            throw new EntityNotFoundException("Person mit der ID " + id + " existiert nicht");
+            throw new EntityNotFoundException("Person mit ID " + id + " existiert nicht");
         }
         personRepository.deleteById(id);
     }
