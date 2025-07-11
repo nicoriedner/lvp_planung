@@ -11,7 +11,6 @@ import at.kaindorf.backend.model.Schulungstermin;
 import at.kaindorf.backend.model.Status;
 import at.kaindorf.backend.repositories.LehrsaalRepository;
 import at.kaindorf.backend.repositories.SchulungsterminRepository;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

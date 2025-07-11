@@ -8,7 +8,6 @@ import at.kaindorf.backend.model.Lehrsaal;
 import at.kaindorf.backend.model.Person;
 import at.kaindorf.backend.model.Schulungstermin;
 import at.kaindorf.backend.repositories.SchulungsterminRepository;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

@@ -2,18 +2,14 @@ package at.kaindorf.backend.service;
 
 import at.kaindorf.backend.dto.PersonDTO;
 import at.kaindorf.backend.exceptions.PersonNotFoundException;
-import at.kaindorf.backend.mapper.KompetenzMapper;
 import at.kaindorf.backend.mapper.PersonMapper;
 import at.kaindorf.backend.model.Kompetenz;
 import at.kaindorf.backend.model.Person;
 import at.kaindorf.backend.repositories.PersonRepository;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor

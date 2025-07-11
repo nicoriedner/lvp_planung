@@ -59,7 +59,7 @@ public class LehrsaalController {
         ResponseEntity.ok();
     }
 
-    @PostMapping("/updatBooking/{id}")
+    @PostMapping("/updateBooking/{id}")
     public void updateBooking(
             @PathVariable Long id,
             @RequestBody SchulungsterminDTO schulungsterminDTO

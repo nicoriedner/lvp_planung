@@ -16,15 +16,22 @@ public class KompetenzController {
 
     private final KompetenzService kompetenzService;
 
-    @PostMapping("/")
+    @GetMapping("/")
     public ResponseEntity<List<KompetenzDTO>> getAllKompetenzen() {
-        return ResponseEntity.ok(kompetenzService.getAllKompetenzen());
+        return ResponseEntity.ok(kompetenzService.findAllKompetenzen());
     }
 
-    @PostMapping("/{name}")
+    @GetMapping("/{name}")
     public ResponseEntity<KompetenzDTO> getKompetenzByName(
             @PathVariable String name
     ){
-        return ResponseEntity.ok(kompetenzService.getKompetenzByBezeichnung(name));
+        return ResponseEntity.ok(kompetenzService.findKompetenzByBezeichnung(name));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<KompetenzDTO> getKompetenzById(
+            @PathVariable Long id
+    ){
+        return ResponseEntity.ok(kompetenzService.findKompetenzById(id));
     }
 }

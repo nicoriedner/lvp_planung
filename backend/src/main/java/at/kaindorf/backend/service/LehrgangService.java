@@ -5,7 +5,6 @@ import at.kaindorf.backend.exceptions.LehrgangNotFoundException;
 import at.kaindorf.backend.mapper.LehrgangMapper;
 import at.kaindorf.backend.model.Lehrgang;
 import at.kaindorf.backend.repositories.LehrgangRepository;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

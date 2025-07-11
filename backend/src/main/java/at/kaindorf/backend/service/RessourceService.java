@@ -6,7 +6,6 @@ import at.kaindorf.backend.mapper.RessourceMapper;
 import at.kaindorf.backend.model.Ressource;
 import at.kaindorf.backend.model.RessourcenTyp;
 import at.kaindorf.backend.repositories.RessourceRepository;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

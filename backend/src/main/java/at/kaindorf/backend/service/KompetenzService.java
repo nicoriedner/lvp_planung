@@ -3,7 +3,6 @@ package at.kaindorf.backend.service;
 import at.kaindorf.backend.dto.KompetenzDTO;
 import at.kaindorf.backend.exceptions.KompetenzNotFoundException;
 import at.kaindorf.backend.mapper.KompetenzMapper;
-import at.kaindorf.backend.model.Kompetenz;
 import at.kaindorf.backend.repositories.KompetenzRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
@@ -17,16 +16,23 @@ public class KompetenzService {
     private final KompetenzRepository kompetenzRepository;
     private final KompetenzMapper kompetenzMapper;
 
-    public List<KompetenzDTO> getAllKompetenzen() {
+    public List<KompetenzDTO> findAllKompetenzen() {
         return kompetenzRepository.findAll()
                 .stream().map(kompetenzMapper::toDTO)
                 .toList();
     }
 
-    public KompetenzDTO getKompetenzByBezeichnung(String bezeichnung) {
+    public KompetenzDTO findKompetenzByBezeichnung(String bezeichnung) {
         if(kompetenzRepository.findByBezeichnung(bezeichnung) == null) {
             throw new EntityNotFoundException(bezeichnung);
         }
         return kompetenzMapper.toDTO(kompetenzRepository.findByBezeichnung(bezeichnung));
+    }
+
+    public KompetenzDTO findKompetenzById(Long id) {
+        if(kompetenzRepository.findById(id) == null) {
+            throw new KompetenzNotFoundException(id);
+        }
+        return kompetenzMapper.toDTO(kompetenzRepository.findById(id).orElse(null));
     }
 }
