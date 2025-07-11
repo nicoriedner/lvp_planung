@@ -59,7 +59,7 @@ public class RessourceService {
     }
 
     public void deleteRessource(Long id) {
-        if(ressourceRepository.findById(id) == null) {
+        if(!ressourceRepository.findById(id).isPresent()) {
             throw new RessourceNotFoundException(id);
         }
         ressourceRepository.deleteById(id);

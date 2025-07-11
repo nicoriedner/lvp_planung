@@ -23,14 +23,12 @@ public class KompetenzService {
     }
 
     public KompetenzDTO findKompetenzByBezeichnung(String bezeichnung) {
-        if(kompetenzRepository.findByBezeichnung(bezeichnung) == null) {
-            throw new EntityNotFoundException(bezeichnung);
-        }
+        kompetenzRepository.findByBezeichnung(bezeichnung);
         return kompetenzMapper.toDTO(kompetenzRepository.findByBezeichnung(bezeichnung));
     }
 
     public KompetenzDTO findKompetenzById(Long id) {
-        if(kompetenzRepository.findById(id) == null) {
+        if(!kompetenzRepository.findById(id).isPresent()) {
             throw new KompetenzNotFoundException(id);
         }
         return kompetenzMapper.toDTO(kompetenzRepository.findById(id).orElse(null));
