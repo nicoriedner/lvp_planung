@@ -49,11 +49,8 @@ public class LehrgangService {
         if(lehrgangRepository.existsById(id)) {
             Lehrgang lehrgang = lehrgangRepository.findById(id).get();
             Lehrgang newLehrgang = lehrgangMapper.toEntity(lehrgangDTO);
-            lehrgang.setBeschreibung(newLehrgang.getBeschreibung());
-            lehrgang.setDauer(newLehrgang.getDauer());
-            lehrgang.setBezeichnung(newLehrgang.getBezeichnung());
-            lehrgang.setKompetenzen(newLehrgang.getKompetenzen());
-            lehrgangRepository.save(lehrgang);
+            newLehrgang.setId(lehrgang.getId());
+            lehrgangRepository.save(newLehrgang);
         } else {
             throw new EntityNotFoundException("Lehrgang mit ID " + id + " nicht gefunden");
         }

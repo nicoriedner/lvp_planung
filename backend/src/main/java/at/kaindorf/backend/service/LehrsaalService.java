@@ -116,16 +116,8 @@ public class LehrsaalService {
         Schulungstermin schulungstermin = schulungsterminRepository.findById(id).get();
         Schulungstermin newSchulungstermin = schulungsterminMapper.toEntity(schulungsterminDTO);
 
-        schulungstermin.setStartDatum(newSchulungstermin.getStartDatum());
-        schulungstermin.setEndDatum(newSchulungstermin.getEndDatum());
-        schulungstermin.setStatus(newSchulungstermin.getStatus());
-        schulungstermin.setLehrsaal(newSchulungstermin.getLehrsaal());
-        schulungstermin.setLehrgang(newSchulungstermin.getLehrgang());
-        schulungstermin.setAnzTeilnehmer(newSchulungstermin.getAnzTeilnehmer());
-        schulungstermin.setLeiter(newSchulungstermin.getLeiter());
-        schulungstermin.setTeilnehmer(newSchulungstermin.getTeilnehmer());
-        schulungstermin.setRessource(newSchulungstermin.getRessource());
-        schulungsterminRepository.save(schulungstermin);
+        newSchulungstermin.setId(schulungstermin.getId());
+        schulungsterminRepository.save(newSchulungstermin);
     }
 
     public Long createNewLehrsaal(LehrsaalDTO lehrsaalDTO) {

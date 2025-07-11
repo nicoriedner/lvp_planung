@@ -61,14 +61,8 @@ public class PersonService {
         Person person = personRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Person mit ID " + id + " existiert nicht!"));
 
-        Person updatedPerson = personMapper.toEntity(personDTO);
-        updatedPerson.setId(id);
-        person.setFirstName(updatedPerson.getFirstName());
-        person.setLastName(updatedPerson.getLastName());
-        person.setStunden(updatedPerson.getStunden());
-        person.setWochenmodell(updatedPerson.getWochenmodell());
-        person.setDienstgrad(updatedPerson.getDienstgrad());
-        person.setSchulungstermine(updatedPerson.getSchulungstermine());
-        personRepository.save(person);
+        Person newPerson = personMapper.toEntity(personDTO);
+        newPerson.setId(id);
+        personRepository.save(newPerson);
     }
 }

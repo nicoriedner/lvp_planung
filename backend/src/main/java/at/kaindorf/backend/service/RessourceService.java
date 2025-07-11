@@ -14,7 +14,6 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class RessourceService {
-    private final RessourceRepository ressourceRepositoryrepository;
     private final RessourceMapper ressourceMapper;
     private final RessourceRepository ressourceRepository;
 

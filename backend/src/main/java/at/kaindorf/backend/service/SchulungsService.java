@@ -71,16 +71,7 @@ public class SchulungsService {
         Schulungstermin schulungstermin = schulungsterminRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Schulungstermin mit ID " + id + " existiert nicht!"));
         Schulungstermin newSchulungstermin = schulungsMapper.toEntity(schulungsterminDTO);
-
-        schulungstermin.setStatus(newSchulungstermin.getStatus());
-        schulungstermin.setLehrsaal(newSchulungstermin.getLehrsaal());
-        schulungstermin.setLehrgang(newSchulungstermin.getLehrgang());
-        schulungstermin.setAnzTeilnehmer(newSchulungstermin.getAnzTeilnehmer());
-        schulungstermin.setStartDatum(newSchulungstermin.getStartDatum());
-        schulungstermin.setEndDatum(newSchulungstermin.getEndDatum());
-        schulungstermin.setLeiter(newSchulungstermin.getLeiter());
-        schulungstermin.setRessource(newSchulungstermin.getRessource());
-        schulungstermin.setTeilnehmer(newSchulungstermin.getTeilnehmer());
-        schulungsterminRepository.save(schulungstermin);
+        newSchulungstermin.setId(schulungstermin.getId());
+        schulungsterminRepository.save(newSchulungstermin);
     }
 }
