@@ -50,15 +50,14 @@ public class LehrgangController {
         return ResponseEntity.ok(lehrgangService.createNewLehrgang(lehrgangDTO));
     }
 
-    @PostMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public void deleteLehrgang(
             @PathVariable Long id
     ){
         lehrgangService.deleteLehrgang(id);
-        ResponseEntity.ok();
     }
 
-    @PostMapping("/update/{id}")
+    @PutMapping("/update/{id}")
     public void updateLehrgang(
             @PathVariable Long id,
             @RequestBody LehrgangDTO lehrgangDTO

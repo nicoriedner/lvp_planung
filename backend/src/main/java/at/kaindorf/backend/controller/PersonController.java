@@ -49,15 +49,14 @@ public class PersonController {
         return ResponseEntity.ok(personService.createNewPerson(personDTO));
     }
 
-    @PostMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public void deletePerson(
             @PathVariable long id
     ){
         personService.deletePerson(id);
-        ResponseEntity.ok();
     }
 
-    @PostMapping("/update/{id}")
+    @PutMapping("/update/{id}")
     public void updatePerson(
             @PathVariable Long id,
             @RequestBody PersonDTO personDTO

@@ -59,12 +59,11 @@ public class SchulungsController {
         return ResponseEntity.ok(schulungsService.findAllByLehrsaal(lehrsaal));
     }
 
-    @PostMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public void deleteSchulungstermin(
             @PathVariable Long id
     ){
         schulungsService.deleteSchulungstermin(id);
-        ResponseEntity.ok();
     }
 
     @PostMapping("/create")
@@ -74,7 +73,7 @@ public class SchulungsController {
         return ResponseEntity.ok(schulungsService.createNewSchulungstermin(schulungsterminDTO));
     }
 
-    @PostMapping("/update/{id}")
+    @PutMapping("/update/{id}")
     public void updateSchulungstermin(
             @PathVariable Long id,
             @RequestBody SchulungsterminDTO schulungstermin

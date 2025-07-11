@@ -57,12 +57,11 @@ public class RessourceController {
         return ResponseEntity.ok(ressourceService.findRessourceByInventarNr(nr));
     }
 
-    @PostMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public void deleteRessource(
             @PathVariable Long id
     ){
         ressourceService.deleteRessource(id);
-        ResponseEntity.ok();
     }
 
     @PostMapping("/create")
@@ -72,7 +71,7 @@ public class RessourceController {
         return ResponseEntity.ok(ressourceService.createNewRessource(ressource));
     }
 
-    @PostMapping("/update/{id}")
+    @PutMapping("/update/{id}")
     public void updateRessource(
             @PathVariable Long id,
             @RequestBody RessourceDTO ressource
