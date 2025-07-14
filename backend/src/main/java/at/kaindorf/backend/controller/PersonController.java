@@ -16,7 +16,7 @@ import java.util.List;
 public class PersonController {
     private final PersonService personService;
 
-    @GetMapping
+    @GetMapping 
     public ResponseEntity<List<PersonDTO>> getAllPersons() {
         return ResponseEntity.ok(personService.findAll());
     }

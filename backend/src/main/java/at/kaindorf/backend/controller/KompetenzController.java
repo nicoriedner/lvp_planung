@@ -16,7 +16,7 @@ public class KompetenzController {
 
     private final KompetenzService kompetenzService;
 
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<List<KompetenzDTO>> getAllKompetenzen() {
         return ResponseEntity.ok(kompetenzService.findAllKompetenzen());
     }
