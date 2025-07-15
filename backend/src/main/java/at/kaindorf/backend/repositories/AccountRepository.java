@@ -12,7 +12,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-public interface AccountRepository extends JpaRepository<at.kaindorf.backend.model.Account, Long> {
+public interface AccountRepository extends JpaRepository<Account, Long> {
 
 
     Optional<Account> findByUsername(String username);
@@ -30,10 +30,10 @@ public interface AccountRepository extends JpaRepository<at.kaindorf.backend.mod
     List<Account> findByFirstNameAndLastName(String firstName, String lastName);
 
     @Query("SELECT a FROM Account a WHERE :adminRole MEMBER OF a.roles")
-    List<Account> findByAdminTrue(@Param("adminRole") Role admin);
+    List<Account> findByAdmin(@Param("adminRole") Role admin);
 
     @Query("SELECT a FROM Account a WHERE :adminRole NOT MEMBER OF a.roles")
-    List<Account> findByAdminFalse(@Param("adminRole") Role admin);
+    List<Account> findByIsNotAdmin(@Param("adminRole") Role admin);
 
     @Query("SELECT a FROM Account a WHERE :role MEMBER OF a.roles")
     List<Account> findByRole(@Param("role") Role role);

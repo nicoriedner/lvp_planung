@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.security.auth.login.LoginException;
+import java.util.Map;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
@@ -17,11 +18,9 @@ public class LoginController {
 
     private final AccountService accountService;
 
-    @PostMapping
-    public ResponseEntity<Long> login(
-            @RequestBody LoginRequestDTO loginRequest, HttpServletRequest request
-    ) throws LoginException {
-        Long userId = accountService.login(loginRequest, request);
-        return ResponseEntity.ok(userId);
+    @PostMapping("/login")
+    public ResponseEntity<Map<String, String>> login(@RequestBody LoginRequestDTO loginRequest) throws LoginException {
+        String token = accountService.login(loginRequest);
+        return ResponseEntity.ok(Map.of("token", token));
     }
 }

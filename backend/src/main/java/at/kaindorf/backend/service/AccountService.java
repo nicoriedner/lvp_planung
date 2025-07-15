@@ -6,7 +6,10 @@ import at.kaindorf.backend.exceptions.EmailAlreadyUsedException;
 import at.kaindorf.backend.exceptions.UserAlreadyExistsException;
 import at.kaindorf.backend.exceptions.UserNotFoundException;
 import at.kaindorf.backend.mapper.AccountMapper;
+import at.kaindorf.backend.model.Account;
+import at.kaindorf.backend.model.Role;
 import at.kaindorf.backend.repositories.AccountRepository;
+import at.kaindorf.backend.security.JwtUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
@@ -14,12 +17,14 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.access.WebInvocationPrivilegeEvaluator;
 import org.springframework.stereotype.Service;
 
 import javax.security.auth.login.LoginException;
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,67 +38,66 @@ public class AccountService {
     private final BCryptPasswordEncoder encoder;
 
     private final AuthenticationManager authenticationManager;
+    private final JwtUtil jwtUtil;
 
-    public Long login(LoginRequestDTO loginRequest, HttpServletRequest request) throws LoginException {
+    public String login(LoginRequestDTO loginRequest) throws LoginException {
         try {
-            Authentication authenticationRequest =
-                    UsernamePasswordAuthenticationToken.unauthenticated(loginRequest.getUsername(), loginRequest.getPassword());
-            Authentication authenticationResponse = this.authenticationManager.authenticate(authenticationRequest);
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            loginRequest.getUsername(),
+                            loginRequest.getPassword()
+                    )
+            );
 
-            SecurityContextHolder.getContext().setAuthentication(authenticationResponse);
+            Account account = accountRepository.findByUsername(loginRequest.getUsername())
+                    .orElseThrow(() -> new UsernameNotFoundException("Benutzer nicht gefunden: " + loginRequest.getUsername()));
 
-            HttpSession session = request.getSession();
-            session.setAttribute("SPRING_SECURITY_CONTEXT", SecurityContextHolder.getContext());
+            return jwtUtil.generateToken(account);
 
-            Optional<at.kaindorf.backend.model.Account> user = accountRepository.findByUsername(loginRequest.getUsername());
-
-            if (user.isPresent()) {
-                return user.get().getId();
-            }
-            throw new UserNotFoundException(user.get().getId());
         } catch (Exception e) {
-            throw new LoginException(e.getMessage());
+            throw new LoginException("Login fehlgeschlagen: " + e.getMessage());
         }
     }
 
-    public at.kaindorf.backend.model.Account register(String username, String password, String email, LocalDate birthdate, String firstName, String lastName) {
-        if (accountRepository.findByUsername(username) != null) {
+    public Account register(String username, String password, String email, LocalDate birthdate, String firstName, String lastName) {
+        if (accountRepository.findByUsername(username).isPresent()) {
             throw new UserAlreadyExistsException(username);
         }
 
-        if (accountRepository.findByEmail(email) != null) {
+        if (accountRepository.findByEmail(email).isPresent()) {
             throw new EmailAlreadyUsedException();
         }
 
-        at.kaindorf.backend.model.Account account = new at.kaindorf.backend.model.Account();
+        Account account = new Account();
         account.setUsername(username);
         account.setPasswordhash(encoder.encode(password));
         account.setEmail(email);
         account.setBirthdate(birthdate);
         account.setFirstName(firstName);
         account.setLastName(lastName);
+        account.setRoles(Collections.singleton(Role.ROLE_USER));
 
-        at.kaindorf.backend.model.Account savedAccount = accountRepository.save(account);
+        Account savedAccount = accountRepository.save(account);
 
         return savedAccount;
     }
 
     public List<AccountDTO> findAllUsers() {
-        List<at.kaindorf.backend.model.Account> accounts = accountRepository.findAll();
+        List<Account> accounts = accountRepository.findAll();
         return accounts.stream()
                 .map(accountMapper::toDTO)
                 .toList();
     }
 
     public AccountDTO findUserById(Long id) {
-        at.kaindorf.backend.model.Account account = accountRepository.findById(id)
+        Account account = accountRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(id));
 
         return accountMapper.toDTO(account);
     }
 
     public void changePassword(Long id, String newPassword) {
-        at.kaindorf.backend.model.Account account = accountRepository.findById(id)
+        Account account = accountRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(id));
 
         account.setPasswordhash(encoder.encode(newPassword));
