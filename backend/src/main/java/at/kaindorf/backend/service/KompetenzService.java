@@ -4,7 +4,6 @@ import at.kaindorf.backend.dto.KompetenzDTO;
 import at.kaindorf.backend.exceptions.KompetenzNotFoundException;
 import at.kaindorf.backend.mapper.KompetenzMapper;
 import at.kaindorf.backend.repositories.KompetenzRepository;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

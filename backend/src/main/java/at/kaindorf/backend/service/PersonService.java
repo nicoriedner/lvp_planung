@@ -58,9 +58,6 @@ public class PersonService {
     }
 
     public void updatePerson(Long id, PersonDTO personDTO) {
-        Person person = personRepository.findById(id)
-                .orElseThrow(() -> new PersonNotFoundException(id));
-
         Person newPerson = personMapper.toEntity(personDTO);
         newPerson.setId(id);
         personRepository.save(newPerson);

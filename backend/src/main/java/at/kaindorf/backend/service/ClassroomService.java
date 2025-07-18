@@ -65,7 +65,7 @@ public class ClassroomService {
         Classroom classroom = classroomRepository.findClassroomById(creation.getClassroom().getId());
 
         if (classroom == null) {
-            throw new ClassroomNotFoundException(classroom.getId());
+            throw new ClassroomNotFoundException(creation.getClassroom().getId());
         }
 
         List<Trainingdate> existingTrainingdates = classroom.getTrainingdates();
@@ -102,7 +102,7 @@ public class ClassroomService {
     public void deleteBooking(TrainingdateDTO dto) {
         Classroom classroom = classroomRepository.findClassroomById(dto.getClassroom().getId());
         if (classroom == null) {
-            throw new ClassroomNotFoundException(classroom.getId());
+            throw new ClassroomNotFoundException(dto.getClassroom().getId());
         }
 
         Trainingdate termin = trainingdateRepository.findTrainingdateByClassroomAndStartDateAndEndDate(
@@ -133,14 +133,14 @@ public class ClassroomService {
     }
 
     public void deleteClassroom(Long id) {
-        if(!classroomRepository.findById(id).isPresent()) {
+        if(classroomRepository.findById(id).isPresent()) {
             throw new ClassroomNotFoundException(id);
         }
         classroomRepository.deleteById(id);
     }
 
     public void updateClassroom(Long id, ClassroomDTO classroomDTO) {
-        if(!classroomRepository.findById(id).isPresent()) {
+        if(classroomRepository.findById(id).isPresent()) {
             throw new ClassroomNotFoundException(id);
         }
         Classroom newClassroom = classroomMapper.toEntity(classroomDTO);
