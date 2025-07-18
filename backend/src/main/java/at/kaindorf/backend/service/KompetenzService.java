@@ -22,9 +22,9 @@ public class KompetenzService {
                 .toList();
     }
 
-    public KompetenzDTO findKompetenzByBezeichnung(String bezeichnung) {
-        kompetenzRepository.findByBezeichnung(bezeichnung);
-        return kompetenzMapper.toDTO(kompetenzRepository.findByBezeichnung(bezeichnung));
+    public KompetenzDTO findKompetenzByName(String name) {
+        kompetenzRepository.findByName(name);
+        return kompetenzMapper.toDTO(kompetenzRepository.findByName(name));
     }
 
     public KompetenzDTO findKompetenzById(Long id) {

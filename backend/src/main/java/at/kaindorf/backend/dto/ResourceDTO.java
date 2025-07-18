@@ -1,6 +1,6 @@
 package at.kaindorf.backend.dto;
 
-import at.kaindorf.backend.model.RessourcenTyp;
+import at.kaindorf.backend.model.ResourceType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,9 +8,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class RessourceDTO {
-    private String bezeichnung;
-    private RessourcenTyp typ;
+public class ResourceDTO {
+    private String name;
+    private ResourceType typ;
     private boolean isAvailable;
-    private int inventarNr;
+    private int inventoryNum;
 }

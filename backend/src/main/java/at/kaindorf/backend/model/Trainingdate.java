@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -13,31 +12,31 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Schulungstermin {
+public class Trainingdate {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private LocalDateTime startDatum;
-    private LocalDateTime endDatum;
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
 
-    private int anzTeilnehmer;
+    private int numParticipants;
 
     @Enumerated(EnumType.STRING)
     private Status status;
 
     @ManyToMany
-    private List<Ressource> ressource;
+    private List<Resource> resource;
 
     @ManyToMany
-    private List<Person> teilnehmer;
+    private List<Person> participants;
 
     @ManyToOne
-    private Lehrsaal lehrsaal;
+    private Classroom classroom;
 
     @ManyToOne
-    private Lehrgang lehrgang;
+    private Course course;
 
     @OneToOne
-    private Person leiter;
+    private Person teacher;
 }

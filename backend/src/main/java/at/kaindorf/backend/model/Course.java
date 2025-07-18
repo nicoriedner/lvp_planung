@@ -3,7 +3,6 @@ package at.kaindorf.backend.model;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Generated;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
@@ -12,16 +11,16 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Lehrgang {
+public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String bezeichnung;
+    private String name;
 
-    private String beschreibung;
+    private String description;
 
-    private int dauer;
+    private int duration;
 
     @ManyToMany
     private List<Kompetenz> kompetenzen;

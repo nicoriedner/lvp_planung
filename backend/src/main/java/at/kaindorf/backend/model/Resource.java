@@ -9,17 +9,17 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Ressource {
+public class Resource {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String bezeichnung;
+    private String name;
 
     private boolean isAvailable;
 
-    private long inventarNr;
+    private long inventoryNum;
 
     @Enumerated(EnumType.STRING)
-    private RessourcenTyp ressourcenTyp;
+    private ResourceType resourceType;
 }

@@ -10,13 +10,10 @@ import at.kaindorf.backend.model.Account;
 import at.kaindorf.backend.model.Role;
 import at.kaindorf.backend.repositories.AccountRepository;
 import at.kaindorf.backend.security.JwtUtil;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.access.WebInvocationPrivilegeEvaluator;
@@ -26,7 +23,6 @@ import javax.security.auth.login.LoginException;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor

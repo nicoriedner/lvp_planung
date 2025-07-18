@@ -1,11 +1,9 @@
 package at.kaindorf.backend.dto;
 
-import at.kaindorf.backend.model.Dienstgrad;
+import at.kaindorf.backend.model.Rank;
 import at.kaindorf.backend.model.Kompetenz;
-import at.kaindorf.backend.model.Schulungstermin;
-import at.kaindorf.backend.model.Wochenmodell;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
+import at.kaindorf.backend.model.Trainingdate;
+import at.kaindorf.backend.model.Weekmodel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,9 +16,9 @@ import java.util.List;
 public class PersonDTO {
     private String firstName;
     private String lastName;
-    private Dienstgrad dienstgrad;
-    private Double stunden;
-    private Wochenmodell wochenmodell;
+    private Rank rank;
+    private Double hours;
+    private Weekmodel weekmodel;
     private List<Kompetenz> kompetenzen;
-    private List<Schulungstermin> schulungstermine;
+    private List<Trainingdate> trainingdates;
 }

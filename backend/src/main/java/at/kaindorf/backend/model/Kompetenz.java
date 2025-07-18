@@ -17,7 +17,7 @@ public class Kompetenz {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String bezeichnung;
+    private String name;
 
-    private String beschreibung;
+    private String description;
 }

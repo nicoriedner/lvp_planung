@@ -25,7 +25,7 @@ public class KompetenzController {
     public ResponseEntity<KompetenzDTO> getKompetenzByName(
             @PathVariable String name
     ){
-        return ResponseEntity.ok(kompetenzService.findKompetenzByBezeichnung(name));
+    return ResponseEntity.ok(kompetenzService.findKompetenzByName(name));
     }
 
     @GetMapping("/{id}")
