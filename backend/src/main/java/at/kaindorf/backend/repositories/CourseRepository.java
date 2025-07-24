@@ -7,9 +7,6 @@ import java.util.List;
 
 public interface CourseRepository extends JpaRepository<Course, Long> {
 
-    @Query("SELECT l FROM Course l WHERE l.id = ?1")
-    Course findCourseById(Long id);
-
     @Query("SELECT l FROM Course l WHERE l.name = ?1")
     Course findCourseByName(String name);
 

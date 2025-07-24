@@ -25,10 +25,9 @@ public class ResourceService {
     }
 
     public ResourceDTO findById(Long id) {
-        if(!resourceRepository.findById(id).isPresent()) {
-            throw new ResourceNotFoundException(id);
-        }
-        return resourceMapper.toDTO(resourceRepository.findResourceById(id));
+        Resource resource = resourceRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(id));
+        return resourceMapper.toDTO(resource);
     }
 
     public List<ResourceDTO> findAvailableResources() {
@@ -62,18 +61,18 @@ public class ResourceService {
     }
 
     public void deleteResource(Long id) {
-        if(!resourceRepository.findById(id).isPresent()) {
-            throw new ResourceNotFoundException(id);
-        }
-        resourceRepository.deleteById(id);
+        Resource resource = resourceRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(id));
+        resourceRepository.delete(resource);
     }
 
     public void updateResource(Long id, ResourceDTO resourceDTO) {
-        if(!resourceRepository.existsById(id)) {
-            throw new ResourceNotFoundException(id);
-        }
-        Resource resource = resourceMapper.toEntity(resourceDTO);
-        resource.setId(id);
-        resourceRepository.save(resource);
+        Resource existing = resourceRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(id));
+
+        Resource updatedResource = resourceMapper.toEntity(resourceDTO);
+        updatedResource.setId(existing.getId());
+
+        resourceRepository.save(updatedResource);
     }
 }

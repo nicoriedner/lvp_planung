@@ -1,6 +1,7 @@
 package at.kaindorf.backend.service;
 
 import at.kaindorf.backend.dto.TrainingdateDTO;
+import at.kaindorf.backend.exceptions.GlobalExceptionHandler;
 import at.kaindorf.backend.exceptions.TrainingdateNotFoundException;
 import at.kaindorf.backend.mapper.TrainingdateMapper;
 import at.kaindorf.backend.model.Course;
@@ -55,10 +56,9 @@ public class TrainingService {
     }
 
     public TrainingdateDTO findById(Long id) {
-        if(!trainingdateRepository.findById(id).isPresent()) {
-            throw new TrainingdateNotFoundException(id);
-        }
-        return trainingMapper.toDTO(trainingdateRepository.findById(id).get());
+        return trainingdateRepository.findById(id)
+                .map(trainingMapper::toDTO)
+                .orElseThrow(() -> new TrainingdateNotFoundException(id));
     }
 
     public void deleteTrainingdate(Long id) {

@@ -10,9 +10,6 @@ import java.util.Optional;
 
 public interface TrainingdateRepository extends JpaRepository<Trainingdate, Long> {
 
-    @Query("SELECT s FROM Trainingdate s WHERE s.id = ?1")
-    Optional<Trainingdate> findTrainingdateById(Long id);
-
     @Query("SELECT s FROM Trainingdate s WHERE s.numParticipants > ?1")
     List<Trainingdate> findTrainingdateByAnzParticipantsGreaterThan(Integer anzParticipants);
 

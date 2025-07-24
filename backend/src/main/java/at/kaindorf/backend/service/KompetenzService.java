@@ -3,6 +3,7 @@ package at.kaindorf.backend.service;
 import at.kaindorf.backend.dto.KompetenzDTO;
 import at.kaindorf.backend.exceptions.KompetenzNotFoundException;
 import at.kaindorf.backend.mapper.KompetenzMapper;
+import at.kaindorf.backend.model.Kompetenz;
 import at.kaindorf.backend.repositories.KompetenzRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -27,9 +28,14 @@ public class KompetenzService {
     }
 
     public KompetenzDTO findKompetenzById(Long id) {
-        if(!kompetenzRepository.findById(id).isPresent()) {
-            throw new KompetenzNotFoundException(id);
-        }
-        return kompetenzMapper.toDTO(kompetenzRepository.findById(id).orElse(null));
+        Kompetenz kompetenz = kompetenzRepository.findById(id)
+                .orElseThrow(() -> new KompetenzNotFoundException(id));
+        return kompetenzMapper.toDTO(kompetenz);
+    }
+
+    public void deleteKompetenzById(Long id) {
+        Kompetenz kompetenz = kompetenzRepository.findById(id)
+                .orElseThrow(() -> new KompetenzNotFoundException(id));
+        kompetenzRepository.delete(kompetenz);
     }
 }

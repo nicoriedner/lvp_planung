@@ -25,10 +25,9 @@ public class PersonService {
     }
 
     public PersonDTO findById(Long id) {
-        if(!personRepository.findById(id).isPresent()) {
-            throw new PersonNotFoundException(id);
-        }
-        return personMapper.toDTO(personRepository.findById(id).get());
+        Person person = personRepository.findById(id)
+                .orElseThrow(() -> new PersonNotFoundException(id));
+        return personMapper.toDTO(person);
     }
 
     public List<PersonDTO> findByKompetenzen(List<Kompetenz> kompetenzen) {
@@ -51,13 +50,15 @@ public class PersonService {
     }
 
     public void deletePerson(Long id) {
-        if(personRepository.findPersonById(id) == null) {
-            throw new PersonNotFoundException(id);
-        }
-        personRepository.deleteById(id);
+        Person person = personRepository.findById(id)
+                        .orElseThrow(() -> new PersonNotFoundException(id));
+        personRepository.delete(person);
     }
 
     public void updatePerson(Long id, PersonDTO personDTO) {
+        Person person = personRepository.findById(id)
+                .orElseThrow(() -> new PersonNotFoundException(id));
+
         Person newPerson = personMapper.toEntity(personDTO);
         newPerson.setId(id);
         personRepository.save(newPerson);

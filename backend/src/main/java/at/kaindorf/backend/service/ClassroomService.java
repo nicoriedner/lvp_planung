@@ -36,10 +36,9 @@ public class ClassroomService {
     }
 
     public ClassroomDTO findById(Long id) {
-        if(!classroomRepository.findById(id).isPresent()) {
-            throw new ClassroomNotFoundException(id);
-        }
-        return classroomMapper.toDTO(classroomRepository.findById(id).get());
+        Classroom classroom = classroomRepository.findById(id)
+                .orElseThrow(() -> new ClassroomNotFoundException(id));
+        return classroomMapper.toDTO(classroom);
     }
 
     public List<ClassroomDTO> findAllWithMinSeating(int seating) {
@@ -100,10 +99,8 @@ public class ClassroomService {
     }
 
     public void deleteBooking(TrainingdateDTO dto) {
-        Classroom classroom = classroomRepository.findClassroomById(dto.getClassroom().getId());
-        if (classroom == null) {
-            throw new ClassroomNotFoundException(dto.getClassroom().getId());
-        }
+        Classroom classroom = classroomRepository.findById(dto.getClassroom().getId())
+                .orElseThrow(() -> new ClassroomNotFoundException(dto.getClassroom().getId()));
 
         Trainingdate termin = trainingdateRepository.findTrainingdateByClassroomAndStartDateAndEndDate(
                 classroom, dto.getStartDate(), dto.getEndDate());
@@ -116,11 +113,9 @@ public class ClassroomService {
 
     public void updateBooking(Long id, TrainingdateDTO trainingdateDTO)
     {
-        if (!trainingdateRepository.existsById(id)) {
-            throw new TrainingdateNotFoundException(id);
-        }
 
-        Trainingdate trainingdate = trainingdateRepository.findById(id).get();
+        Trainingdate trainingdate = trainingdateRepository.findById(id)
+                .orElseThrow(() -> new TrainingdateNotFoundException(id));
         Trainingdate newTrainingdate = trainingdateMapper.toEntity(trainingdateDTO);
 
         newTrainingdate.setId(trainingdate.getId());
@@ -133,7 +128,7 @@ public class ClassroomService {
     }
 
     public void deleteClassroom(Long id) {
-        if(classroomRepository.findById(id).isPresent()) {
+        if (!classroomRepository.existsById(id)) {
             throw new ClassroomNotFoundException(id);
         }
         classroomRepository.deleteById(id);

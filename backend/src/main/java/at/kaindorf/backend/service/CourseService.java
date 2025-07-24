@@ -33,10 +33,9 @@ public class CourseService {
     }
 
     public CourseDTO findById(Long id) {
-        if(!courseRepository.findById(id).isPresent()) {
-            throw new CourseNotFoundException(id);
-        }
-        return courseMapper.toDTO(courseRepository.findById(id).get());
+        Course course = courseRepository.findById(id)
+                .orElseThrow(() -> new CourseNotFoundException(id));
+        return courseMapper.toDTO(course);
     }
 
     public Long createNewCourse(CourseDTO courseDTO) {
@@ -45,11 +44,9 @@ public class CourseService {
     }
 
     public void deleteCourse(Long id) {
-        if(courseRepository.existsById(id)) {
-            courseRepository.deleteById(id);
-        } else {
-            throw new CourseNotFoundException(id);
-        }
+        Course course = courseRepository.findById(id)
+                .orElseThrow(() -> new CourseNotFoundException(id));
+        courseRepository.delete(course);
     }
 
     public void updateCourse(Long id, CourseDTO courseDTO) {

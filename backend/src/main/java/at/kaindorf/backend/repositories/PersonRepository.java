@@ -12,9 +12,6 @@ import java.util.List;
 
 public interface PersonRepository extends JpaRepository<Person, Long> {
 
-    @Query("SELECT p FROM Person p WHERE p.id = ?1")
-    Person findPersonById(Long id);
-
     @Query("SELECT p FROM Person p WHERE p.rank = ?1")
     List<Person> findPersonByRank(Rank rank);
 
