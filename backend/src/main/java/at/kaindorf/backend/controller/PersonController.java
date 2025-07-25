@@ -1,7 +1,7 @@
 package at.kaindorf.backend.controller;
 
 import at.kaindorf.backend.dto.PersonDTO;
-import at.kaindorf.backend.model.Kompetenz;
+import at.kaindorf.backend.model.Competence;
 import at.kaindorf.backend.service.PersonService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +23,7 @@ public class PersonController {
     @GetMapping("/{id}")
     public ResponseEntity<PersonDTO> getPersonById(
             @PathVariable long id
-    ) {
+    ){
         return ResponseEntity.ok(personService.findById(id));
     }
 
@@ -36,9 +36,9 @@ public class PersonController {
 
     @GetMapping("/competence/{competence}")
     public ResponseEntity<List<PersonDTO>> getPersonByCompetence(
-            @PathVariable List<Kompetenz> competence
+            @PathVariable List<Competence> competences
     ){
-        return ResponseEntity.ok(personService.findByKompetenzen(competence));
+        return ResponseEntity.ok(personService.findByCompetences(competences));
     }
 
     @PostMapping("/new")

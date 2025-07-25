@@ -1,7 +1,5 @@
 package at.kaindorf.backend.exceptions;
 
-import at.kaindorf.backend.model.Kompetenz;
-import at.kaindorf.backend.model.Trainingdate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -29,8 +27,8 @@ public class GlobalExceptionHandler {
         return buildResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
     }
 
-    @ExceptionHandler(KompetenzNotFoundException.class)
-    public ResponseEntity<Object> handleKompetenzNotFoundException(KompetenzNotFoundException ex) {
+    @ExceptionHandler(CompetenceNotFoundException.class)
+    public ResponseEntity<Object> handleCompetenceNotFoundException(CompetenceNotFoundException ex) {
         return buildResponse(HttpStatus.NOT_FOUND, ex.getMessage());
     }
 

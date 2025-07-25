@@ -3,7 +3,7 @@ package at.kaindorf.backend.service;
 import at.kaindorf.backend.dto.PersonDTO;
 import at.kaindorf.backend.exceptions.PersonNotFoundException;
 import at.kaindorf.backend.mapper.PersonMapper;
-import at.kaindorf.backend.model.Kompetenz;
+import at.kaindorf.backend.model.Competence;
 import at.kaindorf.backend.model.Person;
 import at.kaindorf.backend.repositories.PersonRepository;
 import lombok.AllArgsConstructor;
@@ -30,8 +30,8 @@ public class PersonService {
         return personMapper.toDTO(person);
     }
 
-    public List<PersonDTO> findByKompetenzen(List<Kompetenz> kompetenzen) {
-        List<Person> persons = personRepository.findPersonsByKompetenzen(kompetenzen);
+    public List<PersonDTO> findByCompetences(List<Competence> competences) {
+        List<Person> persons = personRepository.findPersonsByCompetences(competences);
         return persons.stream()
                 .map(personMapper::toDTO)
                 .toList();
@@ -60,7 +60,7 @@ public class PersonService {
                 .orElseThrow(() -> new PersonNotFoundException(id));
 
         Person newPerson = personMapper.toEntity(personDTO);
-        newPerson.setId(id);
+        newPerson.setId(person.getId());
         personRepository.save(newPerson);
     }
 }

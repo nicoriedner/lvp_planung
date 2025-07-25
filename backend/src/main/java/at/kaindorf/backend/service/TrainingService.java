@@ -1,7 +1,6 @@
 package at.kaindorf.backend.service;
 
 import at.kaindorf.backend.dto.TrainingdateDTO;
-import at.kaindorf.backend.exceptions.GlobalExceptionHandler;
 import at.kaindorf.backend.exceptions.TrainingdateNotFoundException;
 import at.kaindorf.backend.mapper.TrainingdateMapper;
 import at.kaindorf.backend.model.Course;
@@ -65,7 +64,7 @@ public class TrainingService {
             Trainingdate date = trainingdateRepository.findById(id)
                     .orElseThrow(() -> new TrainingdateNotFoundException(id));
             trainingdateRepository.delete(date);
-        }
+    }
 
     public Long createNewTrainingdate(TrainingdateDTO trainingdateDTO) {
         Trainingdate trainingdate = trainingdateRepository.save(trainingMapper.toEntity(trainingdateDTO));

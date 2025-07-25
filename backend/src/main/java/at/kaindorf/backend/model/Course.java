@@ -23,5 +23,5 @@ public class Course {
     private int duration;
 
     @ManyToMany
-    private List<Kompetenz> kompetenzen;
+    private List<Competence> competences;
 }

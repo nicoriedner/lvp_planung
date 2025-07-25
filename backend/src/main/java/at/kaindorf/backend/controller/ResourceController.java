@@ -25,7 +25,7 @@ public class ResourceController {
     @GetMapping("/{id}")
     public ResponseEntity<ResourceDTO> getResourceById(
             @PathVariable Long id
-    ) {
+    ){
         return ResponseEntity.ok(resourceService.findById(id));
     }
 

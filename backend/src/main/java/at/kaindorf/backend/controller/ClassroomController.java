@@ -32,7 +32,7 @@ public class ClassroomController {
     @GetMapping("/minSeating/{minNum}")
     public ResponseEntity<List<ClassroomDTO>> getClassroomByMinSeating(
             @PathVariable int minNum
-    ) {
+    ){
         return ResponseEntity.ok(classroomService.findAllWithMinSeating(minNum));
     }
 

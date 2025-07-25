@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class KompetenzDTO {
+public class CompetenceDTO {
     private String name;
 
     private String description;

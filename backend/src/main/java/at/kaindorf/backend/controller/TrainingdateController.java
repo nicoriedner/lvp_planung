@@ -32,7 +32,7 @@ public class TrainingdateController {
     @GetMapping("/teacher/{teacher}")
     public ResponseEntity<List<TrainingdateDTO>> getAllTrainingdateByTeacher(
             @PathVariable Person teacher
-            ){
+    ){
         return ResponseEntity.ok(trainingService.findAllByTeacher(teacher));
     }
 

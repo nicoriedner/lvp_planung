@@ -37,7 +37,7 @@ public class CourseController {
     @GetMapping("/duration/{duration}")
     public ResponseEntity<List<CourseDTO>> getCoursesByDuration(
             @PathVariable Integer duration
-    ) {
+    ){
         return ResponseEntity.ok(courseService.findCourseByDuration(duration));
     }
 

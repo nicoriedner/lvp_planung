@@ -1,7 +1,7 @@
 package at.kaindorf.backend.dto;
 
 import at.kaindorf.backend.model.Rank;
-import at.kaindorf.backend.model.Kompetenz;
+import at.kaindorf.backend.model.Competence;
 import at.kaindorf.backend.model.Trainingdate;
 import at.kaindorf.backend.model.Weekmodel;
 import lombok.AllArgsConstructor;
@@ -19,6 +19,6 @@ public class PersonDTO {
     private Rank rank;
     private Double hours;
     private Weekmodel weekmodel;
-    private List<Kompetenz> kompetenzen;
+    private List<Competence> competences;
     private List<Trainingdate> trainingdates;
 }

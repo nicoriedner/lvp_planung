@@ -28,7 +28,7 @@ public class Person {
     private Weekmodel weekmodel;
 
     @ManyToMany
-    private List<Kompetenz> kompetenzen;
+    private List<Competence> competences;
 
     @ManyToMany
     private List<Trainingdate> trainingdates;

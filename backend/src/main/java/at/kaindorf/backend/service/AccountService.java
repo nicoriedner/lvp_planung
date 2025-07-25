@@ -16,7 +16,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.access.WebInvocationPrivilegeEvaluator;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.security.auth.login.LoginException;
@@ -30,8 +30,7 @@ public class AccountService {
 
     private final AccountRepository accountRepository;
     private final AccountMapper accountMapper;
-    private final WebInvocationPrivilegeEvaluator privilegeEvaluator;
-    private final BCryptPasswordEncoder encoder;
+    private final PasswordEncoder encoder;
 
     private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;
@@ -73,9 +72,7 @@ public class AccountService {
         account.setLastName(lastName);
         account.setRoles(Collections.singleton(Role.ROLE_USER));
 
-        Account savedAccount = accountRepository.save(account);
-
-        return savedAccount;
+        return accountRepository.save(account);
     }
 
     public List<AccountDTO> findAllUsers() {
