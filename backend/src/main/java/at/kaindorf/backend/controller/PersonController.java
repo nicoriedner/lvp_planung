@@ -35,7 +35,7 @@ public class PersonController {
     }
 
     @GetMapping("/competence/{competence}")
-    public ResponseEntity<List<PersonDTO>> getPersonByCompetence(
+    public ResponseEntity<List<PersonDTO>> getPersonByCompetences(
             @PathVariable List<Competence> competences
     ){
         return ResponseEntity.ok(personService.findByCompetences(competences));

@@ -17,7 +17,7 @@ public class CompetenceController {
     private final CompetenceService competenceService;
 
     @GetMapping
-    public ResponseEntity<List<CompetenceDTO>> getAllCompetenceen() {
+    public ResponseEntity<List<CompetenceDTO>> getAllCompetences() {
         return ResponseEntity.ok(competenceService.findAllCompetences());
     }
 
