@@ -23,17 +23,12 @@ public class AccountController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<AccountDTO> getUserById(
-            @PathVariable long id
-    ){
+    public ResponseEntity<AccountDTO> getUserById(@PathVariable long id) {
         return ResponseEntity.ok(accountService.findUserById(id));
     }
 
     @PutMapping("/changePassword/{id}")
-    public void changePassword(
-            @PathVariable long id,
-            @RequestBody String newPassword
-    ){
+    public void changePassword(@PathVariable long id, @RequestBody String newPassword) {
         accountService.changePassword(id, newPassword);
     }
 }

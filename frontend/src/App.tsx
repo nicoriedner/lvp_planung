@@ -1,35 +1,57 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+import {Navigate, Route, Routes} from "react-router-dom";
+import AppLayout from "./layouts/AppLayout.tsx";
+import NotFoundPage from "./pages/notFound/NotFoundPage.tsx";
+import LoginPage from "./pages/auth/LoginPage.tsx";
+import PrivateRoute from "./components/PrivateRoute.tsx";
+import HomePage from "./pages/home/HomePage.tsx";
+import CourseTablePage from "./pages/courses/CourseTablePage.tsx";
+import TrainerTablePage from "./pages/trainers/TrainerTablePage.tsx";
+import ClassroomTablePage from "./pages/classrooms/ClassroomTablePage.tsx";
+import ResourceTablePage from "./pages/resources/ResourceTablePage.tsx";
+import ProfilePage from "./pages/user/ProfilePage.tsx";
+import SettingsPage from "./pages/user/SettingsPage.tsx";
+import RegisterPage from "./pages/auth/RegisterPage.tsx";
+import HelpPage from "./pages/user/HelpPage.tsx";
+import ImprintPage from "./pages/user/ImprintPage.tsx";
 
 function App() {
-  const [count, setCount] = useState(0)
+    const isAuthenticated = true;
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    return (
+        <>
+            <Routes>
+                {/* Auth-Route */}
+                <Route path="/login" element={<LoginPage/>}/>
+
+                <Route element={<PrivateRoute isAuthenticated={isAuthenticated}/>}>
+                    {/* Layout-Route */}
+                    <Route element={<AppLayout/>}>
+                        {/* Main-Routes */}
+                        <Route index element={<Navigate to="/home" replace/>}/>
+                        <Route path="home" element={<HomePage/>}/>
+                        <Route path="courses" element={<CourseTablePage/>}/>
+                        <Route path="trainers" element={<TrainerTablePage/>}/>
+                        <Route path="classrooms" element={<ClassroomTablePage/>}/>
+                        <Route path="resources" element={<ResourceTablePage/>}/>
+
+                        {/* User-related-Routes */}
+                        <Route path="account">
+                            <Route index element={<Navigate to="profile" replace/>}/>
+                            <Route path="profile" element={<ProfilePage/>}/>
+                            <Route path="settings" element={<SettingsPage/>}/>
+                            <Route path="help" element={<HelpPage/>}/>
+                            <Route path="register" element={<RegisterPage/>}/>
+                            <Route path="imprint" element={<ImprintPage/>} />
+                        </Route>
+                    </Route>
+                </Route>
+
+                {/* Splash-Route */}
+                <Route path="*" element={<NotFoundPage/>}/>
+            </Routes>
+        </>
+    )
 }
 
 export default App

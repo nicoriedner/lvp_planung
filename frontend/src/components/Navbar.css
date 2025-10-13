@@ -1,0 +1,113 @@
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 1.5rem;
+    box-sizing: border-box;
+    background-color: #320202;
+    font-size: 1.0rem;
+}
+
+.navbar > div:first-child {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.navLinks {
+    display: flex;
+    gap: 1.2rem;
+    align-items: center;
+}
+
+.navLinks a {
+    color: white;
+    text-decoration: none;
+    padding: 0.4rem;
+    border-bottom: 2px solid transparent;
+    transition: border-color 0.2s ease, border-radius 0.2s ease;
+}
+
+.navLinks a:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+}
+
+.navLinks a.active {
+    border-bottom-color: white;
+    border-radius: 0;
+}
+
+.navbar > button {
+    position: relative;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    outline: none;
+    transition: filter 0.2s;
+}
+
+.navbar > button:hover,
+.navbar > button.active {
+    filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.8));
+}
+
+.navbar > button > img {
+    display: block;
+}
+
+.navbar-logo {
+    height: 3rem;
+    width: auto;
+}
+
+.profile-icon {
+    height: 2rem;
+    width: 2rem;
+    border-radius: 50%;
+    margin-right: 1.0rem;
+}
+
+.navbar > div:last-child {
+    position: absolute;
+    top: 100%;
+    right: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1.0rem;
+    background-color: #320202;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 1.1rem;
+}
+
+.navbar > div:last-child a,
+.navbar > div:last-child button {
+    color: white;
+    text-decoration: none;
+    padding: 0.2rem;
+}
+
+.navbar > div:last-child a:hover,
+.navbar > div:last-child button:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+}
+
+.navbar > div:last-child button {
+    text-align: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    outline: none;
+}
+
+.navbar > div:last-child button:active {
+    filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.5));
+}
