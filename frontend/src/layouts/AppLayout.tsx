@@ -1,4 +1,4 @@
-import Navbar from "../components/Navbar.tsx";
+import Navbar from "../components/nav/Navbar.tsx";
 import {Outlet} from "react-router-dom";
 
 function AppLayout() {

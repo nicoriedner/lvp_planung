@@ -1,7 +1,7 @@
 import {NavLink, useLocation} from "react-router-dom";
 import {useState, useEffect, useRef} from "react";
-import lfv_logo from "../assets/lfv_steiermark_logo.png";
-import profile from "../assets/profile.png"
+import lfv_logo from "../../assets/lfv_steiermark_logo.png";
+import profile from "../../assets/profile.png"
 import "./Navbar.css";
 
 function Navbar() {

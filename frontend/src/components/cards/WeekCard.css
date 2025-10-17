@@ -1,0 +1,61 @@
+.week-card {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    background-color: rgba(50, 2, 2, 0.7);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+    height: 20vh;
+    cursor: pointer;
+}
+
+.week-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+}
+
+.week-card .content {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    color: black;
+    transition: color 0.2s ease;
+}
+
+/* Reset default margins */
+.week-card .content h1,
+.week-card .content p {
+    margin: 0;
+    padding: 0;
+}
+
+/* Optional small space between title and text */
+.week-card .content h1 + p {
+    margin-top: 0.25rem; /* ~4px space */
+}
+
+.week-card .content h1 {
+    font-size: 1.7rem;
+}
+
+.week-card .content p {
+    font-size: 1.2rem;
+}
+
+.open {
+    display: flex;
+    align-items: center; /* vertically center image */
+    justify-content: center; /* horizontally center image if needed */
+    height: 100%; /* take full height of parent card */
+    transition: transform 0.2s ease;
+}
+
+.open img {
+    width: 7rem;
+    height: 7rem;
+    transition: filter 0.2s ease;
+}
