@@ -1,8 +1,8 @@
-import React from 'react';
-
-function ResourceTablePage(props) {
+function ResourceTablePage() {
     return (
-        <div></div>
+        <div>
+            Ressources
+        </div>
     );
 }
 

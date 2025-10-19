@@ -3,7 +3,8 @@
     justify-content: space-between;
     align-items: center;
     padding: 0.5rem;
-    margin: 0.5rem;
+    margin: 1.0rem 0.7rem;
+    border-radius: 10px;
     background-color: rgba(0, 0, 0, 0.05);
 }
 
@@ -47,8 +48,8 @@
     font-size: 1.3rem;
     font-weight: bold;
     cursor: pointer;
-    background: linear-gradient(135deg, #e0e0e0 0%, #bdbdbd 100%);
-    color: #424242;
+    background: linear-gradient(135deg, rgba(50, 2, 2, 1), rgba(50, 2, 2, 0.8));
+    color: #ffffff;
     border: none;
     border-radius: 10px;
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
@@ -111,4 +112,66 @@
     gap: 1rem;
     margin: 2rem auto;       /* center grid horizontally */
     max-width: 1300px;
+}
+
+/* Add Course Popup Overlay */
+.add-course-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    overflow: hidden;
+}
+
+/* Add Course Popup */
+.add-course-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    width: 90%;
+    max-width: 600px;
+    min-height: 400px;
+    max-height: 90vh;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    padding: 30px;
+    overflow-y: auto;
+}
+
+/* Popup Close Button */
+.popup-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 32px;
+    cursor: pointer;
+    color: #666;
+    line-height: 1;
+    padding: 0;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s;
+    text-decoration: none;
+}
+
+.popup-close:hover {
+    color: #333;
+    border: none;
+    outline: none;
+}
+
+.popup-close:active, .popup-close:focus {
+    border: none;
+    outline: none;
 }

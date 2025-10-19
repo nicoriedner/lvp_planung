@@ -1,19 +1,34 @@
-import {useState} from "react";
+import {useState, useEffect} from "react";
 import "./HomePage.css";
 import arrowLeft from "../../../assets/arrow-left.png";
 import arrowRight from "../../../assets/arrow-right.png";
 import WeekCard from "../../../components/cards/WeekCard.tsx";
 import type {Week} from "../../../interfaces/pages/HomePage.ts";
+import {getCalendarWeeksForMonth} from "../../../services/HomePageService.tsx";
 
 function HomePage() {
     const now = new Date();
-    const [year, setYear] = useState(now.getFullYear());
-    const [month, setMonth] = useState(now.getMonth());
+    const [year, setYear] = useState<number>(now.getFullYear());
+    const [month, setMonth] = useState<number>(now.getMonth());
+    const [isOpen, setIsOpen] = useState<boolean>(false);
 
     const monthNames = [
         "Januar", "Februar", "März", "April", "Mai", "Juni",
         "Juli", "August", "September", "Oktober", "November", "Dezember"
     ];
+
+    // Prevent background scroll when popup is open
+    useEffect(() => {
+        if (isOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'unset';
+        }
+
+        return () => {
+            document.body.style.overflow = 'unset';
+        };
+    }, [isOpen]);
 
     const handlePreviousMonth = () => {
         if (month === 0) {
@@ -33,79 +48,18 @@ function HomePage() {
         }
     };
 
-    const formatYMD = (d: Date): string => {
-        const y = d.getFullYear();
-        const m = d.getMonth() + 1;
-        const dd = d.getDate();
-        return `${y}-${m < 10 ? "0" + m : m}-${dd < 10 ? "0" + dd : dd}`;
-    }
-
-    const getMonday = (d: Date): Date => {
-        const day = d.getDay();
-        const diff = (day === 0 ? -6 : 1 - day); // Montag ist Start
-        return new Date(d.getFullYear(), d.getMonth(), d.getDate() + diff);
-    }
-
-    const getWeekNumber = (date: Date): number => {
-        // ISO 8601: Woche gehört zum Jahr des Donnerstags
-        const thursday = new Date(date);
-        thursday.setDate(date.getDate() + 3 - (date.getDay() || 7) + 1);
-
-        const jan1 = new Date(thursday.getFullYear(), 0, 1);
-        const anchorMonday = getMonday(jan1);
-
-        const daysDiff = Math.floor((thursday.getTime() - anchorMonday.getTime()) / (86400000));
-        return Math.floor(daysDiff / 7) + 1;
-    }
-
-    const getCalendarWeeksForMonth = (year: number, month: number): Week[] => {
-        const weeks: Week[] = [];
-        const seen = new Set<number>();
-
-        // Erster und letzter Tag des Monats
-        const firstDay = new Date(year, month, 1);
-        const lastDay = new Date(year, month + 1, 0);
-
-        // Start: Montag der ersten Woche
-        let currentMonday = getMonday(firstDay);
-        const lastMonday = getMonday(lastDay);
-
-        while (currentMonday <= lastMonday) {
-            const sunday = new Date(currentMonday);
-            sunday.setDate(sunday.getDate() + 6);
-
-            const weekNumber = getWeekNumber(currentMonday);
-
-            // Duplikate vermeiden
-            if (!seen.has(weekNumber)) {
-                seen.add(weekNumber);
-                weeks.push({
-                    id: `${year}-w${weekNumber}`,
-                    week: weekNumber,
-                    startDate: formatYMD(currentMonday),
-                    endDate: formatYMD(sunday)
-                });
-            }
-
-            // Nächster Montag
-            currentMonday = new Date(currentMonday);
-            currentMonday.setDate(currentMonday.getDate() + 7);
-        }
-
-        return weeks;
-    }
-
-    const weeks = getCalendarWeeksForMonth(year, month);
+    const weeks: Week[] = getCalendarWeeksForMonth(year, month);
 
     return (
         <>
+            {/* month and year navigation */}
             <section className="header-section">
                 <div className="date-info">
                     <p>Jahr: <span className="label">{year}</span></p>
                     <p>Monat: <span className="label">{monthNames[month]}</span></p>
                 </div>
                 <div className="add-course">
-                    <button className="add-course-btn">
+                    <button className="add-course-btn" onClick={() => setIsOpen(true)}>
                         Schulung hinzufügen
                     </button>
                 </div>
@@ -122,6 +76,7 @@ function HomePage() {
                 </div>
             </section>
 
+            {/* display all calendar weeks within a given month & year */}
             <section className="week-cards">
                 {weeks.map((week) => (
                     <WeekCard
@@ -133,6 +88,19 @@ function HomePage() {
                     />
                 ))}
             </section>
+
+            {/* Add Course Entry Popup */}
+            {isOpen && (
+                <>
+                    <div className="add-course-overlay" onClick={() => setIsOpen(false)}></div>
+                    <div className="add-course-popup">
+                        <button className="popup-close" onClick={() => setIsOpen(false)}>
+                            ×
+                        </button>
+                        {/* Content will go here */}
+                    </div>
+                </>
+            )}
         </>
     );
 }

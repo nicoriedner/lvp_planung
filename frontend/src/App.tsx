@@ -32,8 +32,8 @@ function App() {
                         {/* Main-Routes */}
                         <Route index element={<Navigate to="/home" replace/>}/>
                         <Route path="home" element={<HomePage />} />
-                        <Route path="home/week/:year/:calendarWeek" element={<WeekTablePage />} />
-                        <Route path="home/year/course/:courseId" element={<CourseDetailsPage />} />
+                        <Route path="home/year/week/:year/:calendarWeek" element={<WeekTablePage />} />
+                        <Route path="home/course/:scheduledCourseId" element={<CourseDetailsPage />} />
 
                         <Route path="courses" element={<CourseTablePage/>}/>
                         <Route path="trainers" element={<TrainerTablePage/>}/>
