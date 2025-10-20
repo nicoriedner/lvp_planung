@@ -14,7 +14,7 @@ import SettingsPage from "./pages/user/SettingsPage.tsx";
 import RegisterPage from "./pages/auth/RegisterPage.tsx";
 import HelpPage from "./pages/user/HelpPage.tsx";
 import ImprintPage from "./pages/user/ImprintPage.tsx";
-import WeekTablePage from "./pages/home/week-view/WeekTablePage.tsx";
+import WeekViewPage from "./pages/home/week-view/WeekViewPage.tsx";
 import CourseDetailsPage from "./pages/home/details-view/CourseDetailsPage.tsx";
 
 function App() {
@@ -32,7 +32,7 @@ function App() {
                         {/* Main-Routes */}
                         <Route index element={<Navigate to="/home" replace/>}/>
                         <Route path="home" element={<HomePage />} />
-                        <Route path="home/year/week/:year/:calendarWeek" element={<WeekTablePage />} />
+                        <Route path="home/year/week/:year/:calendarWeek" element={<WeekViewPage />} />
                         <Route path="home/course/:scheduledCourseId" element={<CourseDetailsPage />} />
 
                         <Route path="courses" element={<CourseTablePage/>}/>

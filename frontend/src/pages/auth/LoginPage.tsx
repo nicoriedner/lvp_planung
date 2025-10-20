@@ -2,7 +2,9 @@ import React from 'react';
 
 function LoginPage(props) {
     return (
-        <div></div>
+        <div>
+            Login
+        </div>
     );
 }
 

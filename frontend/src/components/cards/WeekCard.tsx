@@ -5,7 +5,8 @@ import "./WeekCard.css";
 
 function WeekCard({year, calenderWeek, startDate, endDate}: DateDetails) {
     return (
-        <Link to={`/home/year/week/${year}/${calenderWeek}`} className="week-card">
+        <Link
+            to={`/home/year/week/${year}/${calenderWeek}`} className="week-card">
             <div className="content">
                 <h1>Kalenderwoche: {calenderWeek}</h1>
                 <p>{startDate} - {endDate}</p>

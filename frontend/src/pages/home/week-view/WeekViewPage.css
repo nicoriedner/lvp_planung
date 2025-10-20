@@ -1,0 +1,103 @@
+.week-navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    margin: 1rem 0.7rem;
+    border-radius: 10px;
+    background-color: rgba(0, 0, 0, 0.05);
+    gap: 2rem;
+}
+
+.week-display {
+    align-self: flex-start;
+    font-size: 1.6rem;
+}
+
+.week-display span {
+    font-weight: bold;
+}
+
+.nav-buttons {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.nav-buttons button {
+    padding: 0.5rem;
+    background: none;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+.week {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    font-size: 1.6rem;
+}
+
+.nav-buttons button:hover {
+    transform: scale(1.15);
+}
+
+.nav-buttons button:focus {
+    outline: none;
+    border: none;
+}
+
+.nav-buttons button:active {
+    transform: scale(1.30);
+    outline: none;
+    border: none;
+}
+
+.nav-buttons img {
+    width: 2.2rem;
+    height: 2.2rem;
+    display: block;
+}
+
+.back-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.6rem 1.2rem;
+    margin-right: 1rem;
+    font-size: 1.3rem;
+    font-weight: 600;
+    background: linear-gradient(135deg, rgba(50, 2, 2, 1), rgba(50, 2, 2, 0.8));
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+.back-btn:hover {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}
+
+.back-btn:focus {
+    outline: none;
+    border: none;
+}
+
+.back-btn:active {
+    transform: scale(1.02);
+    outline: none;
+    border: none;
+}
+
+.back-btn img {
+    width: 1.6rem;
+    height: 1.6rem;
+    display: block;
+    margin-left: 1rem;
+}

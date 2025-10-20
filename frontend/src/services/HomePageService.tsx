@@ -13,21 +13,30 @@ const getMonday = (d: Date): Date => {
     return new Date(d.getFullYear(), d.getMonth(), d.getDate() + diff);
 }
 
-const getWeekNumber = (date: Date): number => {
-    // ISO 8601: Woche gehört zum Jahr des Donnerstags
-    const thursday = new Date(date);
-    thursday.setDate(date.getDate() + 3 - (date.getDay() || 7) + 1);
+const getISOWeekAndYear = (date: Date): { week: number; year: number } => {
+    // ISO 8601: Week belongs to the year that contains the Thursday
+    const target = new Date(date);
 
-    const jan1 = new Date(thursday.getFullYear(), 0, 1);
-    const anchorMonday = getMonday(jan1);
+    // Find Thursday of this week
+    const dayOfWeek = (target.getDay() + 6) % 7; // Monday = 0, Sunday = 6
+    target.setDate(target.getDate() - dayOfWeek + 3); // Thursday
 
-    const daysDiff = Math.floor((thursday.getTime() - anchorMonday.getTime()) / (86400000));
-    return Math.floor(daysDiff / 7) + 1;
+    const isoYear = target.getFullYear();
+
+    // January 4th is always in week 1
+    const jan4 = new Date(isoYear, 0, 4);
+    const jan4Monday = getMonday(jan4);
+
+    // Calculate week number
+    const diff = target.getTime() - jan4Monday.getTime();
+    const weekNumber = 1 + Math.floor(diff / (7 * 24 * 60 * 60 * 1000));
+
+    return { week: weekNumber, year: isoYear };
 }
 
 export const getCalendarWeeksForMonth = (year: number, month: number): Week[] => {
     const weeks: Week[] = [];
-    const seen = new Set<number>();
+    const seen = new Set<string>();
 
     // Erster und letzter Tag des Monats
     const firstDay = new Date(year, month, 1);
@@ -41,17 +50,25 @@ export const getCalendarWeeksForMonth = (year: number, month: number): Week[] =>
         const sunday = new Date(currentMonday);
         sunday.setDate(sunday.getDate() + 6);
 
-        const weekNumber = getWeekNumber(currentMonday);
+        // Check if the week overlaps with the target month
+        const weekOverlapsMonth =
+            (currentMonday.getMonth() === month && currentMonday.getFullYear() === year) ||
+            (sunday.getMonth() === month && sunday.getFullYear() === year) ||
+            (currentMonday < firstDay && sunday > lastDay);
 
-        // Duplikate vermeiden
-        if (!seen.has(weekNumber)) {
-            seen.add(weekNumber);
-            weeks.push({
-                id: `${year}-w${weekNumber}`,
-                week: weekNumber,
-                startDate: formatYMD(currentMonday),
-                endDate: formatYMD(sunday)
-            });
+        if (weekOverlapsMonth) {
+            const { week: weekNumber, year: isoYear } = getISOWeekAndYear(currentMonday);
+            const weekKey = `${isoYear}-w${weekNumber}`;
+
+            if (!seen.has(weekKey)) {
+                seen.add(weekKey);
+                weeks.push({
+                    id: weekKey,
+                    week: weekNumber,
+                    startDate: formatYMD(currentMonday),
+                    endDate: formatYMD(sunday)
+                });
+            }
         }
 
         // Nächster Montag

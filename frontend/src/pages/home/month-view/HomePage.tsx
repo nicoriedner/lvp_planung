@@ -3,13 +3,10 @@ import "./HomePage.css";
 import arrowLeft from "../../../assets/arrow-left.png";
 import arrowRight from "../../../assets/arrow-right.png";
 import WeekCard from "../../../components/cards/WeekCard.tsx";
-import type {Week} from "../../../interfaces/pages/HomePage.ts";
-import {getCalendarWeeksForMonth} from "../../../services/HomePageService.tsx";
+import {useDate} from "../../../components/context/useDate.ts";
 
 function HomePage() {
-    const now = new Date();
-    const [year, setYear] = useState<number>(now.getFullYear());
-    const [month, setMonth] = useState<number>(now.getMonth());
+    const { year, setYear, month, setMonth, weeks } = useDate();
     const [isOpen, setIsOpen] = useState<boolean>(false);
 
     const monthNames = [
@@ -47,8 +44,6 @@ function HomePage() {
             setMonth(prev => prev + 1);
         }
     };
-
-    const weeks: Week[] = getCalendarWeeksForMonth(year, month);
 
     return (
         <>
