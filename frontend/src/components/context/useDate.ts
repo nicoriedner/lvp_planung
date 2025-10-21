@@ -1,5 +1,5 @@
 import {createContext, useContext} from 'react';
-import { type DateContextProps} from './DateContext';
+import { type DateContextProps} from '../../interfaces/context/ContextInterfaces.ts';
 
 export const DateContext = createContext<DateContextProps | undefined>(undefined);
 

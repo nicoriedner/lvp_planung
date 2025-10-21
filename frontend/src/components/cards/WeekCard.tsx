@@ -1,4 +1,4 @@
-import type {DateDetails} from "../../interfaces/cards/Cards.ts";
+import type {DateDetails} from "../../interfaces/cards/CardsInterfaces.ts";
 import open from "../../assets/open.png";
 import {Link} from "react-router-dom";
 import "./WeekCard.css";

@@ -1,4 +1,4 @@
-import type {Week} from "../interfaces/pages/HomePage.ts";
+import type {Week} from "../interfaces/pages/PageInterfaces.ts";
 
 const formatYMD = (d: Date): string => {
     const y = d.getFullYear();
