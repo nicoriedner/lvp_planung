@@ -4,6 +4,7 @@ import arrowRight from "../../../assets/arrow-right.png";
 import back from "../../../assets/back.png";
 import "./WeekViewPage.css";
 import type {Course, ProcessedCourse} from "../../../interfaces/pages/PageInterfaces.ts";
+import {formatDMY} from "../../../services/HomePageService.tsx";
 
 function WeekViewPage() {
     const { year, calendarWeek } = useParams();
@@ -225,7 +226,7 @@ function WeekViewPage() {
                     <thead>
                     <tr>
                         {days.map((day) => (
-                            <th key={day.name}>{day.name}<br/>{day.date}</th>
+                            <th key={day.name}>{day.name}<br/>{formatDMY(new Date(day.date))}</th>
                         ))}
                     </tr>
                     </thead>

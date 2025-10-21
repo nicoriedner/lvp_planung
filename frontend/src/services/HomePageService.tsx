@@ -1,10 +1,10 @@
 import type {Week} from "../interfaces/pages/PageInterfaces.ts";
 
-const formatYMD = (d: Date): string => {
+export const formatDMY = (d: Date): string => {
     const y = d.getFullYear();
     const m = d.getMonth() + 1;
     const dd = d.getDate();
-    return `${y}-${m < 10 ? "0" + m : m}-${dd < 10 ? "0" + dd : dd}`;
+    return `${dd < 10 ? "0" + dd : dd}.${m < 10 ? "0" + m : m}.${y}`;
 }
 
 const getMonday = (d: Date): Date => {
@@ -65,8 +65,8 @@ export const getCalendarWeeksForMonth = (year: number, month: number): Week[] =>
                 weeks.push({
                     id: weekKey,
                     week: weekNumber,
-                    startDate: formatYMD(currentMonday),
-                    endDate: formatYMD(sunday)
+                    startDate: formatDMY(currentMonday),
+                    endDate: formatDMY(sunday)
                 });
             }
         }
