@@ -3,21 +3,7 @@ import arrowLeft from "../../../assets/arrow-left.png";
 import arrowRight from "../../../assets/arrow-right.png";
 import back from "../../../assets/back.png";
 import "./WeekViewPage.css";
-
-interface Course {
-    id: string;
-    title: string;
-    startDate: string;
-    endDate: string;
-}
-
-interface ProcessedCourse extends Course {
-    startIndex: number;
-    endIndex: number;
-    span: number;
-    isClippedStart: boolean;
-    isClippedEnd: boolean;
-}
+import type {Course, ProcessedCourse} from "../../../interfaces/pages/PageInterfaces.ts";
 
 function WeekViewPage() {
     const { year, calendarWeek } = useParams();
@@ -94,7 +80,7 @@ function WeekViewPage() {
 
     {/* Gets all Days (Monday - Sunday) of a Week with their respective Date */}
     const getDaysForWeek = (year: number, week: number) => {
-        const dayNames = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+        const dayNames = ["Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag"];
         const jan4 = new Date(Date.UTC(year, 0, 4));
         const jan4Weekday = jan4.getUTCDay() === 0 ? 7 : jan4.getUTCDay();
         const mondayOfWeek1 = new Date(jan4);
@@ -122,7 +108,7 @@ function WeekViewPage() {
     const processedCourses: ProcessedCourse[] = courses
         .filter(course => {
             // Check if course overlaps with the current week
-            // Course must end on or after week start AND start on or before week end
+            // Course must end on or after week start AND start on or before weekend
             return course.endDate >= weekStart && course.startDate <= weekEnd;
         })
         .map(course => {
@@ -217,7 +203,7 @@ function WeekViewPage() {
     return (
         <>
             <section className="week-navigation">
-                <p className="week-display">Wochenplan: <span>KW {calendarWeek}, {year}</span></p>
+                <p className="week-display">Wochenplan: <span>KW {(Number(calendarWeek) < 10) ? ('0' + calendarWeek) : calendarWeek}, {year}</span></p>
                 <div>
                     <p className="week">Woche</p>
                     <div className="nav-buttons">
