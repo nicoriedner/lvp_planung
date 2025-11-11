@@ -4,12 +4,15 @@ import './index.css'
 import App from './App.tsx'
 import {BrowserRouter} from "react-router-dom";
 import {DateProvider} from "./components/context/DateContext.tsx";
+import {CourseProvider} from "./components/context/CourseContext.tsx";
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
         <BrowserRouter>
             <DateProvider>
-                <App/>
+                <CourseProvider>
+                    <App/>
+                </CourseProvider>
             </DateProvider>
         </BrowserRouter>
     </StrictMode>

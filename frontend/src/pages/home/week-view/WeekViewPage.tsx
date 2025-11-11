@@ -1,47 +1,84 @@
-import { useNavigate, useParams } from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import arrowLeft from "../../../assets/arrow-left.png";
 import arrowRight from "../../../assets/arrow-right.png";
 import back from "../../../assets/back.png";
 import "./WeekViewPage.css";
-import type {Course, ProcessedCourse} from "../../../interfaces/pages/PageInterfaces.ts";
+import type {ProcessedCourse} from "../../../interfaces/pages/PageInterfaces.ts";
 import {formatDMY} from "../../../services/HomePageService.tsx";
+import {useDate} from "../../../components/context/useDate.ts";
+import {useCourse} from "../../../components/context/useCourse.ts";
+import {useEffect} from "react";
 
 function WeekViewPage() {
-    const { year, calendarWeek } = useParams();
+    const {year, calendarWeek} = useParams();
     const navigate = useNavigate();
+    const {setCurrentWeek} = useDate();
 
     const currentYear = Number(year);
     const currentCalendarWeek = Number(calendarWeek);
+    const {courses, setCourses} = useCourse();
 
-    {/* Course Mock-Data */}
-    const courses: Course[] = [
-        {
-            id: "1",
-            title: "AGT(7)",
-            startDate: "2025-10-20", // Monday
-            endDate: "2025-10-22"    // Wednesday
-        },
-        {
-            id: "2",
-            title: "Tech1",
-            startDate: "2025-10-21", // Tuesday
-            endDate: "2025-10-23"    // Thursday
-        },
-        {
-            id: "3",
-            title: "Tech2",
-            startDate: "2025-10-23", // Friday
-            endDate: "2025-10-25"    // Sunday
-        },
-        {
-            id: "4",
-            title: "Tech3",
-            startDate: "2025-10-19", // Monday
-            endDate: "2025-10-20"    // Monday (same day)
+    useEffect(() => {
+        setCurrentWeek(currentCalendarWeek);
+    }, [currentCalendarWeek, setCurrentWeek]);
+
+    {/* Course Mock-Data */
+    }
+    useEffect(() => {
+        // Check if we already have data for this week
+        const weekKey = `${currentYear}-W${currentCalendarWeek}`;
+
+        if (!courses[weekKey]) {
+            // Fetch/set courses for this specific week
+            setCourses(prev => ({
+                ...prev,
+                [weekKey]: [
+                    {
+                        id: 1,
+                        title: "AGT(7)",
+                        startDate: "2025-10-20",
+                        endDate: "2025-10-22"
+                    },
+                    {
+                        id: 2,
+                        title: "Tech1",
+                        startDate: "2025-10-21", // Tuesday
+                        endDate: "2025-10-23"    // Thursday
+                    },
+                    {
+                        id: 3,
+                        title: "Tech2",
+                        startDate: "2025-10-23", // Friday
+                        endDate: "2025-10-25"    // Sunday
+                    },
+                    {
+                        id: 4,
+                        title: "Tech3",
+                        startDate: "2025-10-19", // Monday
+                        endDate: "2025-10-20"    // Monday (same day)
+                    },
+                    {
+                        id: 5,
+                        title: "Tech4",
+                        startDate: "2025-10-22", // Monday
+                        endDate: "2025-10-25"    // Monday (same day)
+                    },
+                    {
+                        id: 6,
+                        title: "Tech5",
+                        startDate: "2025-10-24", // Monday
+                        endDate: "2025-10-27"    // Monday (same day)
+                    }
+                    // ... other courses
+                ]
+            }));
         }
-    ];
+    }, [currentYear, currentCalendarWeek, courses, setCourses]);
 
-    {/* Used for Week-Navigation to check if a year contains 52 or 53 calendar weeks */}
+// Then use: const weekCourses = courses[`${currentYear}-W${currentCalendarWeek}`] || [];
+
+    {/* Used for Week-Navigation to check if a year contains 52 or 53 calendar weeks */
+    }
     const getWeeksInYear = (year: number): number => {
         const jan1 = new Date(year, 0, 1);
         const dec31 = new Date(year, 11, 31);
@@ -79,7 +116,8 @@ function WeekViewPage() {
         navigate("/home");
     };
 
-    {/* Gets all Days (Monday - Sunday) of a Week with their respective Date */}
+    {/* Gets all Days (Monday - Sunday) of a Week with their respective Date */
+    }
     const getDaysForWeek = (year: number, week: number) => {
         const dayNames = ["Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag"];
         const jan4 = new Date(Date.UTC(year, 0, 4));
@@ -89,7 +127,7 @@ function WeekViewPage() {
         const targetMonday = new Date(mondayOfWeek1);
         targetMonday.setUTCDate(mondayOfWeek1.getUTCDate() + (week - 1) * 7);
 
-        return Array.from({ length: 7 }, (_, i) => {
+        return Array.from({length: 7}, (_, i) => {
             const day = new Date(targetMonday);
             day.setUTCDate(targetMonday.getUTCDate() + i);
             return {
@@ -99,14 +137,18 @@ function WeekViewPage() {
         });
     };
 
-    {/* Variable containing the dates for the table header */}
+    {/* Variable containing the dates for the table header */
+    }
     const days = getDaysForWeek(currentYear, currentCalendarWeek);
 
     const weekStart = days[0].date;
     const weekEnd = days[6].date;
 
-    {/* Add information to a course - startDate, endDate and span as well information whether it spans outside the week-scope or not */}
-    const processedCourses: ProcessedCourse[] = courses
+    {/* Add information to a course - startDate, endDate and span as well information whether it spans outside the week-scope or not */
+    }
+    const weekCourses = courses[`${currentYear}-W${currentCalendarWeek}`] || [];
+
+    const processedCourses: ProcessedCourse[] = weekCourses
         .filter(course => {
             // Check if course overlaps with the current week
             // Course must end on or after week start AND start on or before weekend
@@ -137,7 +179,8 @@ function WeekViewPage() {
     // Assign courses to rows (avoid overlaps)
     const rows: ProcessedCourse[][] = [];
 
-    {/* 2-dimensional array containing courses per row */}
+    {/* 2-dimensional array containing courses per row */
+    }
     processedCourses.forEach(course => {
         let placed = false;
 
@@ -161,7 +204,8 @@ function WeekViewPage() {
         }
     });
 
-    {/* Add cells and fill them either blank or with course-data */}
+    {/* Add cells and fill them either blank or with course-data */
+    }
     const buildRowCells = (rowCourses: ProcessedCourse[]) => {
         // Build table cells for each row
         const cells = [];
@@ -183,8 +227,8 @@ function WeekViewPage() {
                     key={`course-${course.id}`}
                     colSpan={course.span}
                     className={`course-cell ${course.isClippedStart ? 'clipped-start' : ''} ${course.isClippedEnd ? 'clipped-end' : ''}`}
-                    onClick={() => navigate(`/home/course/${course.id}`)}
-                    style={{ cursor: 'pointer' }}
+                    onClick={() => navigate(`/home/course/id/${course.id}`)}
+                    style={{cursor: 'pointer'}}
                 >
                     {course.title}
                 </td>
@@ -204,21 +248,25 @@ function WeekViewPage() {
     return (
         <>
             <section className="week-navigation">
-                <p className="week-display">Wochenplan: <span>KW {(Number(calendarWeek) < 10) ? ('0' + calendarWeek) : calendarWeek}, {year}</span></p>
+                <div className="container">
+                    <p className="week-display">Wochenplan: <span>KW {(Number(calendarWeek) < 10) ? ('0' + calendarWeek) : calendarWeek}, {year}</span>
+                    </p>
+                    <p className="week-display">Heute: <span>{formatDMY(new Date())}</span></p>
+                </div>
                 <div>
                     <p className="week">Woche</p>
                     <div className="nav-buttons">
                         <button onClick={handlePreviousWeek}>
-                            <img src={arrowLeft} alt="zurück" />
+                            <img src={arrowLeft} alt="zurück"/>
                         </button>
                         <button onClick={handleNextWeek}>
-                            <img src={arrowRight} alt="vor" />
+                            <img src={arrowRight} alt="vor"/>
                         </button>
                     </div>
                 </div>
                 <button onClick={handleBack} className="back-btn">
                     Zurück zur Übersicht
-                    <img src={back} alt="zurück" />
+                    <img src={back} alt="zurück"/>
                 </button>
             </section>
             <section>

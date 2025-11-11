@@ -2,20 +2,28 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem 1.5rem;
-    margin: 1rem 0.7rem;
-    border-radius: 10px;
-    background-color: rgba(0, 0, 0, 0.05);
+    padding: 1.25rem 1.75rem;
+    margin: 1.5rem 1rem;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
     gap: 2rem;
+}
+
+.container {
+    margin: 0;
+    padding: 0;
 }
 
 .week-display {
     align-self: flex-start;
-    font-size: 1.6rem;
+    font-size: 1.5rem;
+    color: #2c3e50;
 }
 
 .week-display span {
-    font-weight: bold;
+    font-weight: 600;
+    color: #1a252f;
 }
 
 .nav-buttons {
@@ -25,12 +33,14 @@
 
 .nav-buttons button {
     padding: 0.5rem;
-    background: none;
+    background: transparent;
     border: none;
     display: flex;
     align-items: center;
     justify-content: center;
     transition: all 0.3s ease;
+    cursor: pointer;
+    border-radius: 8px;
     outline: none;
 }
 
@@ -38,23 +48,21 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    font-weight: bold;
-    font-size: 1.6rem;
+    font-weight: 600;
+    font-size: 1.5rem;
+    color: #2c3e50;
 }
 
 .nav-buttons button:hover {
     transform: scale(1.15);
-}
-
-.nav-buttons button:focus {
-    outline: none;
     border: none;
+    outline: none;
 }
 
 .nav-buttons button:active {
     transform: scale(1.30);
-    outline: none;
     border: none;
+    outline: none;
 }
 
 .nav-buttons img {
@@ -66,85 +74,107 @@
 .back-btn {
     display: flex;
     align-items: center;
-    gap: 0.6rem;
-    padding: 0.6rem 1.2rem;
+    gap: 0.7rem;
+    padding: 0.7rem 1.4rem;
     margin-right: 1rem;
-    font-size: 1.3rem;
+    font-size: 1.25rem;
     font-weight: 600;
-    background: linear-gradient(135deg, rgba(50, 2, 2, 1), rgba(50, 2, 2, 0.8));
+    background: linear-gradient(135deg, #a93226 0%, #7b241c 100%);
     color: #ffffff;
     border: none;
-    border-radius: 8px;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(169, 50, 38, 0.3);
     transition: all 0.3s ease;
-    outline: none;
+    cursor: pointer;
 }
 
 .back-btn:hover {
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
-}
-
-.back-btn:focus {
-    outline: none;
-    border: none;
+    box-shadow: 0 4px 12px rgba(169, 50, 38, 0.4);
+    transform: translateY(-1px);
 }
 
 .back-btn:active {
-    transform: scale(1.02);
-    outline: none;
-    border: none;
+    transform: translateY(0);
 }
 
 .back-btn img {
-    width: 1.6rem;
-    height: 1.6rem;
+    width: 1.5rem;
+    height: 1.5rem;
     display: block;
-    margin-left: 1rem;
+    margin-left: 0.5rem;
 }
 
 .week-table {
     width: 100%;
-    border-collapse: collapse;
-    margin: 1rem 0;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin: 1.5rem 0;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 .week-table th, .week-table td {
-    border: 1px solid #ddd;
-    padding: 0.75rem;
+    border: 1px solid #e0e0e0;
+    padding: 1rem;
     text-align: center;
     min-width: 100px;
 }
 
 .week-table th {
-    background-color: #f5f5f5;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    color: #2c3e50;
     font-weight: bold;
+    font-size: 1.05rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 .week-table tbody tr {
     height: 60px;
+    background: white;
+}
+
+.week-table tbody td {
+    transition: all 0.2s ease;
 }
 
 .course-cell {
-    background-color: #4a90e2;
+    background: linear-gradient(135deg, #a93226 0%, #7b241c 100%);
     color: white;
-    font-weight: bold;
+    font-weight: bolder;
+    font-size: 1.2rem;
     position: relative;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.course-cell:hover {
+    background: linear-gradient(135deg, #b8432f 0%, #8e2a21 100%);
+    z-index: 1;
 }
 
 .course-cell.clipped-start,
 .course-cell.clipped-end,
 .course-cell.clipped-start.clipped-end {
     background:
-            linear-gradient(
-                    135deg,
-                    #0e2f5a 25%,
-                    transparent 25%,
-                    transparent 50%,
-                    #0e2f5a 50%,
-                    #0e2f5a 75%,
-                    transparent 75%,
-                    transparent
-            ),
-            #4a90e2;
-    background-size: 15px 15px;
+            repeating-linear-gradient(
+                    45deg,
+                    #a93226,
+                    #a93226 10px,
+                    #7b241c 10px,
+                    #7b241c 20px
+            );
+}
+
+.course-cell.clipped-start:hover,
+.course-cell.clipped-end:hover,
+.course-cell.clipped-start.clipped-end:hover {
+    background:
+            repeating-linear-gradient(
+                    45deg,
+                    #b8432f,
+                    #b8432f 10px,
+                    #8e2a21 10px,
+                    #8e2a21 20px
+            );
 }
