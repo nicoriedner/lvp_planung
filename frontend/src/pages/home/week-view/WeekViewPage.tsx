@@ -273,9 +273,17 @@ function WeekViewPage() {
                 <table className="week-table">
                     <thead>
                     <tr>
-                        {days.map((day) => (
-                            <th key={day.name}>{day.name}<br/>{formatDMY(new Date(day.date))}</th>
-                        ))}
+                        {days.map((day) => {
+                            const today = new Date().toISOString().split("T")[0];
+                            const isToday = day.date === today;
+                            console.log(isToday)
+
+                            return (
+                                <th key={day.name} className={isToday ? 'current-day' : ''}>
+                                    {day.name}<br/>{formatDMY(new Date(day.date))}
+                                </th>
+                            );
+                        })}
                     </tr>
                     </thead>
                     <tbody>

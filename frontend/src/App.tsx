@@ -18,7 +18,7 @@ import WeekViewPage from "./pages/home/week-view/WeekViewPage.tsx";
 import CourseDetailsPage from "./pages/home/details-view/CourseDetailsPage.tsx";
 
 function App() {
-    const isAuthenticated = true;
+    const isAuthenticated = false;
 
     return (
         <>

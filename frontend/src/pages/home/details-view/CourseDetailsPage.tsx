@@ -4,12 +4,15 @@ import {useDate} from "../../../components/context/useDate.ts";
 import {useCourse} from "../../../components/context/useCourse.ts";
 import type {Course, CourseData} from "../../../interfaces/pages/PageInterfaces.ts";
 import {useEffect, useMemo, useState} from "react";
+import "./CourseDetailsPage.css";
+import "../week-view/WeekViewPage.css";
 
 function CourseDetailsPage() {
-    const { courseId } = useParams();
-    const { year, currentWeek } = useDate();
-    const { courses, setCourses } = useCourse();
+    const {courseId} = useParams();
+    const {year, currentWeek} = useDate();
+    const {courses, setCourses} = useCourse();
     const navigate = useNavigate();
+    const [isOpen, setIsOpen] = useState<boolean>(false);
 
     // Get basic course from context
     const weekKey = `${year}-W${currentWeek}`;
@@ -81,12 +84,12 @@ function CourseDetailsPage() {
 
         // Mock data for now - only the additional details
         const details = {
-            trainer: { id: 1, firstname: "Max Mustermann" },
-            classroom: { id: 1, name: "Raum 101" },
-            class: { id: 1, name: "Klasse A" },
+            trainer: {id: 1, firstname: "Max Mustermann"},
+            classroom: {id: 1, name: "Raum 101"},
+            class: {id: 1, name: "Klasse A"},
             resources: [
-                { id: 1, name: "Laptop" },
-                { id: 2, name: "Beamer" }
+                {id: 1, name: "Laptop"},
+                {id: 2, name: "Beamer"}
             ]
         };
 
@@ -98,17 +101,25 @@ function CourseDetailsPage() {
     }, [course, courseId]);
 
     const handleBack = () => {
+        // sometimes when wrong id - error and week-not-loaded so it becomes 0
         navigate(`/home/year/week/${year}/${currentWeek}`)
     }
 
     if (notFound) {
         return (
-            <div>
-                <p>Kurs nicht gefunden</p>
-                <button onClick={handleBack}>
-                    Zurück zur Übersicht
-                    <img src={back} alt="back"/>
-                </button>
+            <div className="course-details-container">
+                <section className="course-actions">
+                    <h2>Schulung mit ID {courseId} nicht gefunden</h2>
+                    <button onClick={handleBack} className="back-btn">
+                        Zurück zur Übersicht
+                        <img src={back} alt="back"/>
+                    </button>
+                </section>
+                <section>
+                    <p>Ungültige Schulungs-ID</p>
+                    <p>Die von Ihnen gesuchte Schulung existiert so nicht!</p>
+                    <p>Möglicherweiße wurde sie gelöscht</p>
+                </section>
             </div>
         );
     }
@@ -116,36 +127,50 @@ function CourseDetailsPage() {
     if (!courseData) return <div>Laden...</div>;
 
     return (
-        <div>
-            <section>
+        <div className="course-details-container">
+            <section className="course-header">
                 <h1>{courseData.title}</h1>
             </section>
-            <section>
-                <div>
-                    <button>
-                        Kurs bearbeiten
-                    </button>
+            <section className="course-actions">
+                <button onClick={() => setIsOpen(true)}>
+                    Schulung bearbeiten
+                </button>
+                <button onClick={handleBack} className="back-btn">
+                    Zurück zur Übersicht
+                    <img src={back} alt="back"/>
+                </button>
+            </section>
+            <section className="course-details">
+                <div className="course-details-left">
+                    <p><strong>Trainer:</strong> {courseData.trainer.firstname}</p>
+                    <p><strong>Raum:</strong> {courseData.classroom.name}</p>
+                    <div>
+                        <h3>Ressourcen:</h3>
+                        <ul>
+                            {courseData.resources.map(resource => (
+                                <li key={resource.id}>{resource.name}</li>
+                            ))}
+                        </ul>
+                    </div>
                 </div>
-                <div>
-                    <button onClick={handleBack}>
-                        Zurück zur Übersicht
-                        <img src={back} alt="back"/>
-                    </button>
+                <div className="course-details-right">
+                    <p className="course-date">
+                        <strong>Zeitraum:</strong> {new Date(courseData.startDate).toLocaleDateString('de-DE')} - {new Date(courseData.endDate).toLocaleDateString('de-DE')}
+                    </p>
+                    <p><strong>Klasse:</strong> {courseData.class.name}</p>
                 </div>
             </section>
-            <section>
-                <p>Trainer: {courseData.trainer.firstname}</p>
-                <p>Raum: {courseData.classroom.name}</p>
-                <p>Klasse: {courseData.class.name}</p>
-                <div>
-                    <h3>Ressourcen:</h3>
-                    <ul>
-                        {courseData.resources.map(resource => (
-                            <li key={resource.id}>{resource.name}</li>
-                        ))}
-                    </ul>
-                </div>
-            </section>
+            {isOpen && (
+                <>
+                    <div className="add-course-overlay" onClick={() => setIsOpen(false)}></div>
+                    <div className="add-course-popup">
+                        <button className="popup-close" onClick={() => setIsOpen(false)}>
+                            ×
+                        </button>
+                        {/* Content will go here */}
+                    </div>
+                </>
+            )}
         </div>
     );
 }

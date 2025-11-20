@@ -86,6 +86,7 @@
     box-shadow: 0 2px 8px rgba(169, 50, 38, 0.3);
     transition: all 0.3s ease;
     cursor: pointer;
+    outline: none;
 }
 
 .back-btn:hover {
@@ -95,6 +96,11 @@
 
 .back-btn:active {
     transform: translateY(0);
+    outline: none;
+}
+
+.back-btn:focus {
+    outline: none;
 }
 
 .back-btn img {
@@ -151,6 +157,10 @@
 .course-cell:hover {
     background: linear-gradient(135deg, #b8432f 0%, #8e2a21 100%);
     z-index: 1;
+}
+
+.week-table thead th.current-day {
+    background: linear-gradient(135deg, rgba(255, 165, 0, 0.75) 0%, rgba(255, 140, 0, 0.25) 100%);
 }
 
 .course-cell.clipped-start,
