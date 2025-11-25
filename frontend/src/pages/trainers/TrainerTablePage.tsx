@@ -1,6 +1,5 @@
-import React from 'react';
 
-function TrainerTablePage(props) {
+function TrainerTablePage() {
     return (
         <div></div>
     );

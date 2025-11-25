@@ -1,12 +1,16 @@
-import {Navigate, Outlet} from "react-router-dom";
+import {Navigate, Outlet, useLocation} from "react-router-dom";
+import {useAuth} from "../context/useAuth.ts";
 
-interface PrivateRouteProps {
-    isAuthenticated: boolean;
-}
+function PrivateRoute() {
+    const {isAuthenticated, loading} = useAuth();
+    const location = useLocation();
 
-function PrivateRoute({isAuthenticated}: PrivateRouteProps) {
+    if (loading) {
+        return <div>Lädt...</div>; // Loading spinner möglich
+    }
+
     if (!isAuthenticated) {
-        return <Navigate to="/login" replace />
+        return <Navigate to="/login" state={{ from: location }} replace />
     }
 
     return <Outlet />

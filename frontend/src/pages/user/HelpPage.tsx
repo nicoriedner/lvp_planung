@@ -1,6 +1,5 @@
-import React from 'react';
 
-function HelpPage(props) {
+function HelpPage() {
     return (
         <div></div>
     );

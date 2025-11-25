@@ -15,3 +15,23 @@ export interface CourseContextProps {
     courses: Record<string, Course[]>;
     setCourses: React.Dispatch<React.SetStateAction<Record<string, Course[]>>>
 }
+
+export interface AuthContextProps {
+    user: UserProps | null;
+    isAuthenticated: boolean;
+    loading: boolean;
+
+    login: (email: string, password: string) => Promise<LoginResultProps>;
+    logout: () => Promise<void>;
+}
+
+export interface UserProps {
+    id: string;
+    email: string;
+    name: string;
+}
+
+export interface LoginResultProps {
+    success: boolean;
+    error?: string;
+}

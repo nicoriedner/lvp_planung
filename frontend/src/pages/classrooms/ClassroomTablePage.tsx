@@ -1,6 +1,5 @@
-import React from 'react';
 
-function ClassroomTablePage(props) {
+function ClassroomTablePage() {
     return (
         <div></div>
     );

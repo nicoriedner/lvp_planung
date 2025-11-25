@@ -1,6 +1,5 @@
-import React from 'react';
 
-function CourseTablePage(props) {
+function CourseTablePage() {
     return (
         <div></div>
     );

@@ -18,15 +18,13 @@ import WeekViewPage from "./pages/home/week-view/WeekViewPage.tsx";
 import CourseDetailsPage from "./pages/home/details-view/CourseDetailsPage.tsx";
 
 function App() {
-    const isAuthenticated = false;
-
     return (
         <>
             <Routes>
                 {/* Auth-Route */}
                 <Route path="/login" element={<LoginPage/>}/>
 
-                <Route element={<PrivateRoute isAuthenticated={isAuthenticated}/>}>
+                <Route element={<PrivateRoute />}>
                     {/* Layout-Route */}
                     <Route element={<AppLayout/>}>
                         {/* Main-Routes */}

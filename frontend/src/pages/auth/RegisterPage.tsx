@@ -1,6 +1,5 @@
-import React from 'react';
 
-function RegisterPage(props) {
+function RegisterPage() {
     return (
         <div></div>
     );

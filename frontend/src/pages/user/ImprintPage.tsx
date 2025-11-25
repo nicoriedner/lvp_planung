@@ -1,6 +1,5 @@
-import React from 'react';
 
-function ImprintPage(props) {
+function ImprintPage() {
     return (
         <div>
             Imprint
