@@ -12,6 +12,8 @@ export const AuthProvider = ({children}: { children: ReactNode }) => {
         void checkAuth();
     }, []);
 
+    // TODO: cleanup code allot
+
     const checkAuth = async (): Promise<void> => {
         try {
             const response = await fetch('/', {

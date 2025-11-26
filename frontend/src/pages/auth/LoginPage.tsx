@@ -78,7 +78,7 @@ function LoginPage() {
                                 id="password"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
-                                placeholder={showPassword ? "••••••••••••" : "dein passwort"}
+                                placeholder={showPassword ? "dein passwort" : "••••••••••••"}
                                 required
                             />
                             <button
