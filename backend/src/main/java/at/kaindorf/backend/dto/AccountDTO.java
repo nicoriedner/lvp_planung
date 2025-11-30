@@ -15,11 +15,11 @@ import java.util.Set;
 @NoArgsConstructor
 public class AccountDTO {
     private String username;
-    private String firstName;
-    private String lastName;
-    private String passwordhash;
+    private String firstname;
+    private String lastname;
+    private String password;
     private String email;
     private LocalDate birthdate;
-    private Set<Role> roles = new HashSet<>();
+    private Set<Role> roles;
     private String avatar;
 }

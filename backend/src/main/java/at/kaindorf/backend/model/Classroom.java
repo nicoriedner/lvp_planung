@@ -1,29 +1,28 @@
 package at.kaindorf.backend.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.List;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
+/**
+ * The Classroom class is used to save an Entity of a Classroom to the Database
+ * @author <b>Berger S., Großschedl S., Riedner N.</b>
+ */
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
 public class Classroom {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
-
     private String name;
-
-    private String description;
-
-    private int seating;
-
-    private String equipment;
+    private String additionalInformation;
+    private int numberOfSeats;
 
     @OneToMany(mappedBy = "classroom")
-    private List<Trainingdate> trainingdates;
+    private List<ConcreteCourse> courses;
 }

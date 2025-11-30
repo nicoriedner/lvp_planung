@@ -5,13 +5,13 @@ import at.kaindorf.backend.exceptions.CourseNotFoundException;
 import at.kaindorf.backend.mapper.CourseMapper;
 import at.kaindorf.backend.model.Course;
 import at.kaindorf.backend.repositories.CourseRepository;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class CourseService {
     private final CourseRepository courseRepository;
     private final CourseMapper courseMapper;
@@ -32,7 +32,7 @@ public class CourseService {
                 .toList();
     }
 
-    public CourseDTO findById(Long id) {
+    public CourseDTO findCourseById(Long id) {
         Course course = courseRepository.findById(id)
                 .orElseThrow(() -> new CourseNotFoundException(id));
         return courseMapper.toDTO(course);

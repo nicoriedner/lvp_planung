@@ -17,7 +17,4 @@ public interface ResourceRepository extends JpaRepository<Resource, Long> {
 
     @Query("SELECT r FROM Resource r WHERE r.resourceType = ?1")
     List<Resource> findResourceByTyp(ResourceType typ);
-
-    @Query("SELECT r FROM Resource r WHERE r.inventoryNum = ?1")
-    Resource findResourceByInventoryNum(Long inventoryNum);
 }

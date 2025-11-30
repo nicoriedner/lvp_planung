@@ -1,35 +1,27 @@
 package at.kaindorf.backend.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import java.util.List;
-
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
+/**
+ * The Person class is used to be a Superclass for Trainer and Trainee.
+ * @author <b>Berger S., Großschedl S., Riedner N.</b>
+ */
 @Entity
-public class Person {
+@Getter
+@Setter
+@NoArgsConstructor
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "type",
+        discriminatorType = DiscriminatorType.STRING)
+public abstract class Person {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
-
-    private String firstName;
-    private String lastName;
-
-    private Double hours;
-
+    private String firstname;
+    private String lastname;
     @Enumerated(EnumType.STRING)
     private Rank rank;
-
-    @Enumerated(EnumType.STRING)
-    private Weekmodel weekmodel;
-
-    @ManyToMany
-    private List<Competence> competences;
-
-    @ManyToMany
-    private List<Trainingdate> trainingdates;
 }

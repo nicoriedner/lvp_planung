@@ -24,7 +24,7 @@ public class CourseController {
     public ResponseEntity<CourseDTO> getCourseById(
             @PathVariable Long id
     ){
-        return ResponseEntity.ok(courseService.findById(id));
+        return ResponseEntity.ok(courseService.findCourseById(id));
     }
 
     @GetMapping("/name/{name}")
@@ -62,5 +62,14 @@ public class CourseController {
     ){
         courseService.updateCourse(id, courseDTO);
         ResponseEntity.ok();
+    }
+
+    @PostMapping
+    public String getCourseDetails(@RequestBody long courseId) {
+        StringBuilder sb = new StringBuilder();
+
+        CourseDTO course = courseService.findCourseById(courseId);
+
+        return null;
     }
 }

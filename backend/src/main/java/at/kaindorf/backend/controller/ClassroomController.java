@@ -1,8 +1,7 @@
 package at.kaindorf.backend.controller;
 
 import at.kaindorf.backend.dto.ClassroomDTO;
-import at.kaindorf.backend.dto.TrainingdateDTO;
-import at.kaindorf.backend.model.Trainingdate;
+import at.kaindorf.backend.dto.ConcreteCourseDTO;
 import at.kaindorf.backend.service.ClassroomService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -43,34 +42,27 @@ public class ClassroomController {
         return ResponseEntity.ok(classroomService.findByName(description));
     }
 
-    @GetMapping("/date/{date}")
-    public ResponseEntity<List<ClassroomDTO>> getClassroomByTrainingdate(
-            @PathVariable Trainingdate date
-    ){
-        return ResponseEntity.ok(classroomService.findByTrainingdate(date));
-    }
-
     @PostMapping("/book")
     public ResponseEntity<Long> bookClassroom(
-            @RequestBody TrainingdateDTO trainingdateDTO
+            @RequestBody ConcreteCourseDTO concreteCourseDTO
     ){
-        return ResponseEntity.ok(classroomService.bookClassroom(trainingdateDTO));
+        return ResponseEntity.ok(classroomService.bookClassroom(concreteCourseDTO));
     }
 
     @PostMapping("/deleteBooking/{date}")
     public void deleteBooking(
-            @RequestBody TrainingdateDTO trainingdateDTO
+            @RequestBody ConcreteCourseDTO concreteCourseDTO
     ){
-        classroomService.deleteBooking(trainingdateDTO);
+        classroomService.deleteBooking(concreteCourseDTO);
         ResponseEntity.ok();
     }
 
     @PutMapping("/updateBooking/{id}")
     public void updateBooking(
             @PathVariable Long id,
-            @RequestBody TrainingdateDTO trainingdateDTO
+            @RequestBody ConcreteCourseDTO concreteCourseDTO
     ){
-        classroomService.updateBooking(id, trainingdateDTO);
+        classroomService.updateBooking(id, concreteCourseDTO);
     }
 
     @PostMapping("/create")
