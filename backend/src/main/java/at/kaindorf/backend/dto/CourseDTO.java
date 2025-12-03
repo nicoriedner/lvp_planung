@@ -13,6 +13,6 @@ import java.util.List;
 public class CourseDTO {
     private String name;
     private String description;
-    private int duration;
-    private List<Competence> competences;
+    private int durationInDays;
+    private List<Competence> requiredCompetences;
 }

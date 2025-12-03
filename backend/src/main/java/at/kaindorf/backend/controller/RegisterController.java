@@ -18,7 +18,7 @@ public class RegisterController {
             @RequestBody RegisterRequestDTO registerDTO
     ){
         try {
-            accountService.register(registerDTO.getUsername(), registerDTO.getPassword(), registerDTO.getEmail(), registerDTO.getBirthdate(), registerDTO.getFirstName(), registerDTO.getLastName());
+            accountService.register(registerDTO.getUsername(), registerDTO.getPassword(), registerDTO.getEmail(), registerDTO.getBirthdate(), registerDTO.getFirstname(), registerDTO.getLastname());
             return ResponseEntity.ok("User registered successfully");
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body("Error: " + e.getMessage());

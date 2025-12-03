@@ -1,25 +1,30 @@
 package at.kaindorf.backend.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
+import java.util.List;
+
+/**
+ * The Resource class is used to save resources that are only available in a limited amount.
+ * @author <b>Berger S., Großschedl S., Riedner N.</b>
+ */
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
 public class Resource {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
-
     private String name;
-
     private boolean isAvailable;
-
-    private long inventoryNum;
-
     @Enumerated(EnumType.STRING)
     private ResourceType resourceType;
+    @ManyToMany(mappedBy = "resources")
+    @JoinTable(name = "resource_concrete_course",
+            joinColumns = @JoinColumn(name = "concrete_course_id"),
+            inverseJoinColumns = @JoinColumn(name = "resource_id")
+    )
+    private List<ConcreteCourse> courses;
 }

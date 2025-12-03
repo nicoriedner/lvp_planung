@@ -51,10 +51,6 @@ public class ResourceService {
                 .toList();
     }
 
-    public ResourceDTO findResourceByInventoryNr(Long inventoryNum) {
-        return resourceMapper.toDTO(resourceRepository.findResourceByInventoryNum(inventoryNum));
-    }
-
     public Long createNewResource(ResourceDTO resourceDTO) {
         Resource resource = resourceMapper.toEntity(resourceDTO);
         return resourceRepository.save(resource).getId();

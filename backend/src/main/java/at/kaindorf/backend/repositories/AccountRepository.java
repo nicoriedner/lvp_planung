@@ -19,11 +19,11 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
 
     Optional<Account> findByEmail(String email);
 
-    List<Account> findByFirstName(String firstname);
+    List<Account> findByFirstname(String firstname);
 
-    List<Account> findByLastName(String lastName);
+    List<Account> findByLastname(String lastName);
 
-    List<Account> findByFirstNameAndLastName(String firstName, String lastName);
+    List<Account> findByFirstnameAndLastname(String firstName, String lastName);
 
     @Query("SELECT a FROM Account a WHERE :adminRole MEMBER OF a.roles")
     List<Account> findByAdmin(@Param("adminRole") Role admin);

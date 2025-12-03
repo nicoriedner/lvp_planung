@@ -48,13 +48,6 @@ public class ResourceController {
         return ResponseEntity.ok(resourceService.findResourcesByName(name));
     }
 
-    @GetMapping("/inventory/{nr}")
-    public ResponseEntity<ResourceDTO> getAllResourcesByInventoryNr(
-            @PathVariable Long nr
-    ){
-        return ResponseEntity.ok(resourceService.findResourceByInventoryNr(nr));
-    }
-
     @DeleteMapping("/delete/{id}")
     public void deleteResource(
             @PathVariable Long id

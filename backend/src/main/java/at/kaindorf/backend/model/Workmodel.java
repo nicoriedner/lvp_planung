@@ -1,6 +1,6 @@
 package at.kaindorf.backend.model;
 
-public enum Weekmodel {
+public enum Workmodel {
     FULL,
     PART,
     SHIFT,

@@ -1,19 +1,19 @@
 package at.kaindorf.backend.dto;
 
+import at.kaindorf.backend.model.Course;
+import at.kaindorf.backend.model.Rank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class RegisterRequestDTO {
-    private String username;
+public class TraineeDTO {
     private String firstname;
     private String lastname;
-    private LocalDate birthdate;
-    private String password;
-    private String email;
+    private Rank rank;
+    private List<Course> courses;
 }

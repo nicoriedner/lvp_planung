@@ -28,7 +28,7 @@ import java.util.List;
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
-public class  SecurityConfig {
+public class SecurityConfig {
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -44,6 +44,7 @@ public class  SecurityConfig {
                                 .requestMatchers("/login", "/signup").permitAll()
                                 .requestMatchers("/admin/**").hasRole("ADMIN")
                                 .requestMatchers("/user/**").hasAnyRole("ADMIN", "USER")
+                                .requestMatchers("/concrete-course/**").permitAll()
                                 .anyRequest().authenticated()
 
                 )
