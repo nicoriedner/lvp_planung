@@ -1,35 +1,32 @@
 import {type ReactNode, useEffect, useState} from "react";
 import {AuthContext} from "./useAuth";
-import type {UserProps} from "../../interfaces/context/ContextInterfaces.ts";
-import type {LoginResultProps} from "../../interfaces/context/ContextInterfaces.ts";
+import type {User} from "../../interfaces/context/ContextInterfaces.ts";
+import type {LoginResult} from "../../interfaces/context/ContextInterfaces.ts";
+import {authService} from "../../routes/AuthRoutes.ts";
 
 export const AuthProvider = ({children}: { children: ReactNode }) => {
-    const [user, setUser] = useState<UserProps | null>(null);
+    const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
 
     // beim rendern in main.tsx
     useEffect(() => {
-        void checkAuth();
+        authService.setAuthErrorCallback(() => {
+            setUser(null);
+        });
+
+        void verifyAuth();
     }, []);
 
     // TODO: cleanup code allot
 
-    const checkAuth = async (): Promise<void> => {
+    const verifyAuth = async (): Promise<void> => {
         try {
-            const response = await fetch('/', {
-                method: 'GET',
-                credentials: 'include',
-            });
-
-            if (response.ok) {
-                const data = await response.json();
-                setUser(data.user);
-            } else {
-                setUser(null);
-            }
+            const userData = await authService.verifyAuth();
+            setUser(userData);
         } catch (error) {
-            console.error('Auth check failed:', error);
+            // Token expired or invalid - clear user state
             setUser(null);
+            console.error('Auth verification failed:', error);
         } finally {
             setLoading(false);
         }
@@ -38,49 +35,29 @@ export const AuthProvider = ({children}: { children: ReactNode }) => {
     const login = async (
         email: string,
         password: string
-    ): Promise<LoginResultProps> => {
-        try {
-            // use axios
-            const response = await fetch('/api/auth/login', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                credentials: 'include',
-                body: JSON.stringify({email, password}),
-            });
+    ): Promise<LoginResult> => {
+        const result = await authService.login(email, password);
 
-            if (!response.ok) {
-                const data = await response.json();
-                return {
-                    success: false,
-                    error: data.error || 'Login fehlgeschlagen'
-                };
-            }
-
-            const data = await response.json();
-            setUser(data.user);
-            return {success: true};
-        } catch (error) {
-            return {
-                success: false,
-                error: error instanceof Error ? error.message : 'Unknown error'
-            };
+        if (result.success && result.user) {
+            setUser(result.user);
         }
+
+        // for testing
+        setUser({email: "", id: "", name: ""})
+
+        return result;
     };
 
     const logout = async (): Promise<void> => {
         try {
-            await fetch('/api/auth/logout', {
-                method: 'POST',
-                credentials: 'include',
-            });
-        } catch (error) {
-            console.error('Logout failed:', error);
+            await authService.logout();
         } finally {
             setUser(null);
+            authService.resetLogoutFlag();
         }
     };
 
-    return <AuthContext.Provider value={{ user, login, logout, loading, isAuthenticated: !!user }}>
+    return <AuthContext.Provider value={{ user, setUser, login, logout, loading, isAuthenticated: !!user }}>
         {children}
     </AuthContext.Provider>;
 };

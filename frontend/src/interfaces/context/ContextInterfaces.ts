@@ -17,21 +17,23 @@ export interface CourseContextProps {
 }
 
 export interface AuthContextProps {
-    user: UserProps | null;
+    user: User | null;
+    setUser: React.Dispatch<React.SetStateAction<User | null>>;
     isAuthenticated: boolean;
     loading: boolean;
 
-    login: (email: string, password: string) => Promise<LoginResultProps>;
+    login: (email: string, password: string) => Promise<LoginResult>;
     logout: () => Promise<void>;
 }
 
-export interface UserProps {
+export interface User {
     id: string;
     email: string;
     name: string;
 }
 
-export interface LoginResultProps {
+export interface LoginResult {
     success: boolean;
     error?: string;
+    user?: User;
 }

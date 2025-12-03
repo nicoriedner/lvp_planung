@@ -276,7 +276,6 @@ function WeekViewPage() {
                         {days.map((day) => {
                             const today = new Date().toISOString().split("T")[0];
                             const isToday = day.date === today;
-                            console.log(isToday)
 
                             return (
                                 <th key={day.name} className={isToday ? 'current-day' : ''}>

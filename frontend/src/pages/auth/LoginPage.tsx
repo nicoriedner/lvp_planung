@@ -5,7 +5,7 @@ import passwordHide from "../../assets/password_hide.png";
 import lfv_logo from "../../assets/lfv_steiermark_logo.png";
 import {useLocation, useNavigate} from "react-router-dom";
 import {useAuth} from "../../components/context/useAuth.ts";
-import type {LoginResultProps} from "../../interfaces/context/ContextInterfaces.ts";
+import type {LoginResult} from "../../interfaces/context/ContextInterfaces.ts";
 import warning from "../../assets/warning.png";
 
 function LoginPage() {
@@ -25,13 +25,18 @@ function LoginPage() {
         e.preventDefault();
         console.log("Login attempt:", { email, password });
 
-        setError('');
-        setLoading(true);
+        const loadingTimeout = setTimeout(() => {
+            setLoading(true);
+        }, 200);
 
-        const result: LoginResultProps = await login(email, password);
+        const result: LoginResult = await login(email, password);
 
-        if (result.success) {
+        clearTimeout(loadingTimeout);
+
+        // for testing - change to success
+        if (result.error) {
             navigate(from, { replace: true });
+            setError('');
         } else {
             console.error(result.error || "error while trying to log in");
             setError("Login fehlgeschlagen");
