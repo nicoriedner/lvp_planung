@@ -1,15 +1,17 @@
 package at.kaindorf.backend.dto;
 
-import at.kaindorf.backend.model.ResourceType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ResourceDTO {
+public class CourseOverviewDTO {
+    private int id;
     private String name;
-    private ResourceType resourceType;
-    private boolean isAvailable;
+    private LocalDate startDate;
+    private LocalDate endDate;
 }

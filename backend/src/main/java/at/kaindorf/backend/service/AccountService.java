@@ -10,7 +10,7 @@ import at.kaindorf.backend.model.Account;
 import at.kaindorf.backend.model.Role;
 import at.kaindorf.backend.repositories.AccountRepository;
 import at.kaindorf.backend.security.JwtUtil;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -24,7 +24,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class AccountService {
 
     private final AccountRepository accountRepository;
@@ -64,11 +64,11 @@ public class AccountService {
 
         Account account = new Account();
         account.setUsername(username);
-        account.setPasswordhash(encoder.encode(password));
+        account.setPassword(encoder.encode(password));
         account.setEmail(email);
         account.setBirthdate(birthdate);
-        account.setFirstName(firstName);
-        account.setLastName(lastName);
+        account.setFirstname(firstName);
+        account.setLastname(lastName);
         account.setRoles(Collections.singleton(Role.ROLE_USER));
 
         return accountRepository.save(account);
@@ -92,7 +92,7 @@ public class AccountService {
         Account account = accountRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(id));
 
-        account.setPasswordhash(encoder.encode(newPassword));
+        account.setPassword(encoder.encode(newPassword));
         accountRepository.save(account);
     }
 

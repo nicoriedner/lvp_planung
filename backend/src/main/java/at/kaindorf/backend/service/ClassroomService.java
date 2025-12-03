@@ -1,17 +1,17 @@
 package at.kaindorf.backend.service;
 
 import at.kaindorf.backend.dto.ClassroomDTO;
-import at.kaindorf.backend.dto.TrainingdateDTO;
+import at.kaindorf.backend.dto.ConcreteCourseDTO;
 import at.kaindorf.backend.exceptions.ClassroomNotFoundException;
-import at.kaindorf.backend.exceptions.TrainingdateNotFoundException;
+import at.kaindorf.backend.exceptions.ConcreteCourseNotFoundException;
 import at.kaindorf.backend.mapper.ClassroomMapper;
-import at.kaindorf.backend.mapper.TrainingdateMapper;
+import at.kaindorf.backend.mapper.ConcreteCourseMapper;
 import at.kaindorf.backend.model.Classroom;
-import at.kaindorf.backend.model.Trainingdate;
+import at.kaindorf.backend.model.ConcreteCourse;
 import at.kaindorf.backend.model.Status;
 import at.kaindorf.backend.repositories.ClassroomRepository;
-import at.kaindorf.backend.repositories.TrainingdateRepository;
-import lombok.AllArgsConstructor;
+import at.kaindorf.backend.repositories.ConcreteCourseRepository;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -20,13 +20,13 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ClassroomService {
     private static final Logger log = LoggerFactory.getLogger(ClassroomService.class);
     private final ClassroomRepository classroomRepository;
+    private final ConcreteCourseRepository concreteCourseRepository;
     private final ClassroomMapper classroomMapper;
-    private final TrainingdateRepository trainingdateRepository;
-    private final TrainingdateMapper trainingdateMapper;
+    private final ConcreteCourseMapper concreteCourseMapper;
 
     public List<ClassroomDTO> findAll() {
         List<Classroom> classrooms = classroomRepository.findAll();
@@ -42,7 +42,7 @@ public class ClassroomService {
     }
 
     public List<ClassroomDTO> findAllWithMinSeating(int seating) {
-        List<Classroom> classrooms = classroomRepository.findClassroomBySeatingGreaterThanEqual(seating);
+        List<Classroom> classrooms = classroomRepository.findClassroomByMinimumAmountOfSeats(seating);
         return classrooms.stream()
                 .map(classroomMapper::toDTO)
                 .toList();
@@ -53,73 +53,66 @@ public class ClassroomService {
         return classroomMapper.toDTO(classroom);
     }
 
-    public List<ClassroomDTO> findByTrainingdate(Trainingdate trainingdate) {
-        return classroomRepository.findClassroomByTrainingdate(trainingdate)
-                .stream()
-                .map(classroomMapper::toDTO)
-                .toList();
-    }
-
-    public Long bookClassroom(TrainingdateDTO creation) {
+    public Long bookClassroom(ConcreteCourseDTO creation) {
         Classroom classroom = classroomRepository.findClassroomById(creation.getClassroom().getId());
 
         if (classroom == null) {
             throw new ClassroomNotFoundException(creation.getClassroom().getId());
         }
 
-        List<Trainingdate> existingTrainingdates = classroom.getTrainingdates();
-        LocalDateTime newStart = creation.getStartDate();
-        LocalDateTime newEnd = creation.getEndDate();
+        List<ConcreteCourse> existingConcreteCourses = classroom.getCourses();
+        LocalDateTime newStart = creation.getStart();
+        LocalDateTime newEnd = creation.getEnd();
 
         if (newStart == null || newEnd == null || newStart.isAfter(newEnd)) {
             throw new RuntimeException("Ungültiger Zeitraum für den neuen Termin.");
         }
 
-        for (Trainingdate existingTrainingdate : existingTrainingdates) {
-            LocalDateTime existingStart = existingTrainingdate.getStartDate();
-            LocalDateTime existingEnd = existingTrainingdate.getEndDate();
+        for (ConcreteCourse existingConcreteDate : existingConcreteCourses) {
+            LocalDateTime existingStart = existingConcreteDate.getStartTime();
+            LocalDateTime existingEnd = existingConcreteDate.getEndTime();
 
             if (existingStart == null || existingEnd == null) {
-                throw new RuntimeException("Schulungstermin ID " + existingTrainingdate.getId() + " hat ungültige Daten.");
+                throw new RuntimeException("Schulungstermin ID " + existingConcreteDate.getId() + " hat ungültige Daten.");
             }
 
             if (newStart.isBefore(existingEnd) && newEnd.isAfter(existingStart)) {
-                throw new RuntimeException("Lehrsaal " + classroom.getName() + " ist bereits belegt (Überlappung mit Termin ID: " + existingTrainingdate.getId() + ").");
+                throw new RuntimeException("Lehrsaal " + classroom.getName() + " ist bereits belegt (Überlappung mit Termin ID: " + existingConcreteDate.getId() + ").");
             }
         }
 
         log.info("Lehrsaal " + classroom.getName() + " ist verfügbar für den Zeitraum " + newStart + " bis " + newEnd + ".");
 
-    Trainingdate newBooking = trainingdateMapper.toEntity(creation);
-    newBooking.setClassroom(classroom);
-    newBooking.setStatus(Status.PLANNED);
-    newBooking = trainingdateRepository.save(newBooking);
+        ConcreteCourse newBooking = concreteCourseMapper.toEntity(creation);
+        newBooking.setClassroom(classroom);
+        newBooking.setStatus(Status.PLANNED);
+        newBooking = concreteCourseRepository.save(newBooking);
         return newBooking.getId();
 
     }
 
-    public void deleteBooking(TrainingdateDTO dto) {
+    public void deleteBooking(ConcreteCourseDTO dto) {
         Classroom classroom = classroomRepository.findById(dto.getClassroom().getId())
                 .orElseThrow(() -> new ClassroomNotFoundException(dto.getClassroom().getId()));
 
-        Trainingdate termin = trainingdateRepository.findTrainingdateByClassroomAndStartDateAndEndDate(
-                classroom, dto.getStartDate(), dto.getEndDate());
+        ConcreteCourse termin = concreteCourseRepository.findConcreteCourseByClassroomAndStartDateAndEndDate(
+                classroom, dto.getStart(), dto.getEnd());
 
         if (termin != null) {
-            trainingdateRepository.delete(termin);
+            concreteCourseRepository.delete(termin);
             log.info("Schulungstermin erfolgreich gelöscht.");
         }
     }
 
-    public void updateBooking(Long id, TrainingdateDTO trainingdateDTO)
+    public void updateBooking(Long id, ConcreteCourseDTO concreteCourseDTO)
     {
 
-        Trainingdate trainingdate = trainingdateRepository.findById(id)
-                .orElseThrow(() -> new TrainingdateNotFoundException(id));
-        Trainingdate newTrainingdate = trainingdateMapper.toEntity(trainingdateDTO);
+        ConcreteCourse concreteCourse = concreteCourseRepository.findById(id)
+                .orElseThrow(() -> new ConcreteCourseNotFoundException(id));
+        ConcreteCourse newConcreteCourse = concreteCourseMapper.toEntity(concreteCourseDTO);
 
-        newTrainingdate.setId(trainingdate.getId());
-        trainingdateRepository.save(newTrainingdate);
+        newConcreteCourse.setId(concreteCourse.getId());
+        concreteCourseRepository.save(newConcreteCourse);
     }
 
     public Long createNewClassroom(ClassroomDTO classroomDTO) {

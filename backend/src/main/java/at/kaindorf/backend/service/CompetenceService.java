@@ -5,13 +5,13 @@ import at.kaindorf.backend.exceptions.CompetenceNotFoundException;
 import at.kaindorf.backend.mapper.CompetenceMapper;
 import at.kaindorf.backend.model.Competence;
 import at.kaindorf.backend.repositories.CompetenceRepository;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class CompetenceService {
     private final CompetenceRepository competenceRepository;
     private final CompetenceMapper competenceMapper;

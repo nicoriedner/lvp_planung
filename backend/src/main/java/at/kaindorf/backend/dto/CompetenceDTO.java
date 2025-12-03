@@ -9,6 +9,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CompetenceDTO {
     private String name;
-
     private String description;
 }

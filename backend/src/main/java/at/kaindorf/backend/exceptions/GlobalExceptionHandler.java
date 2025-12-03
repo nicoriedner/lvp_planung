@@ -42,8 +42,8 @@ public class GlobalExceptionHandler {
         return buildResponse(HttpStatus.NOT_FOUND, ex.getMessage());
     }
 
-    @ExceptionHandler(TrainingdateNotFoundException.class)
-    public ResponseEntity<Object> handleTrainingdateNotFoundException(TrainingdateNotFoundException ex) {
+    @ExceptionHandler(ConcreteCourseNotFoundException.class)
+    public ResponseEntity<Object> handleTrainingdateNotFoundException(ConcreteCourseNotFoundException ex) {
         return buildResponse(HttpStatus.NOT_FOUND, ex.getMessage());
     }
 

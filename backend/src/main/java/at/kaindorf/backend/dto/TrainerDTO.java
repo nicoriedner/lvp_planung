@@ -1,5 +1,6 @@
 package at.kaindorf.backend.dto;
 
+import at.kaindorf.backend.model.Competence;
 import at.kaindorf.backend.model.ConcreteCourse;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,9 +11,11 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ClassroomDTO {
-    private String name;
-    private String additionalInformation;
-    private int numberOfSeats;
+public class TrainerDTO {
+    private String firstname;
+    private String lastname;
+    private String rank;
+    private int maximumWorkHours;
+    private List<Competence> competences;
     private List<ConcreteCourse> courses;
 }
