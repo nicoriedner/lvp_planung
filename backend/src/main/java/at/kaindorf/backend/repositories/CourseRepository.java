@@ -1,6 +1,5 @@
 package at.kaindorf.backend.repositories;
 
-import at.kaindorf.backend.dto.CourseDetailsDTO;
 import at.kaindorf.backend.model.Course;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

@@ -3,6 +3,8 @@ package at.kaindorf.backend.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 /**
  * The Resource class is used to save resources that are only available in a limited amount.
  * @author <b>Berger S., Großschedl S., Riedner N.</b>
@@ -19,4 +21,10 @@ public class Resource {
     private boolean isAvailable;
     @Enumerated(EnumType.STRING)
     private ResourceType resourceType;
+    @ManyToMany(mappedBy = "resources")
+    @JoinTable(name = "resource_concrete_course",
+            joinColumns = @JoinColumn(name = "concrete_course_id"),
+            inverseJoinColumns = @JoinColumn(name = "resource_id")
+    )
+    private List<ConcreteCourse> courses;
 }

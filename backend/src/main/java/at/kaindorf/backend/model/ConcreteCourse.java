@@ -28,4 +28,6 @@ public class ConcreteCourse {
     private Classroom classroom;
     @ManyToOne
     private Trainer trainer;
+    @ManyToMany
+    List<Resource> resources;
 }

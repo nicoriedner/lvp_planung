@@ -1,6 +1,8 @@
 package at.kaindorf.backend.service;
 
 import at.kaindorf.backend.dto.ConcreteCourseDTO;
+import at.kaindorf.backend.dto.ConcreteCourseDetailsDTO;
+import at.kaindorf.backend.dto.WeeklyCoursesDTO;
 import at.kaindorf.backend.exceptions.ConcreteCourseNotFoundException;
 import at.kaindorf.backend.mapper.ConcreteCourseMapper;
 import at.kaindorf.backend.model.Classroom;
@@ -70,5 +72,16 @@ public class ConcreteCourseService {
         ConcreteCourse newConcreteCourse = concreteCourseMapper.toEntity(concreteCourseDTO);
         newConcreteCourse.setId(concreteCourse.getId());
         concreteCourseRepository.save(newConcreteCourse);
+    }
+
+    public List<WeeklyCoursesDTO> getConcreteCoursesForWeekKey(String weekKey) {
+        String[] tokens = weekKey.split("-W");
+        int year = Integer.parseInt(tokens[0]);
+        int weekOfYear = Integer.parseInt(tokens[1]);
+        return concreteCourseRepository.getConcreteCourseForWeekKey(year, weekOfYear);
+    }
+
+    public ConcreteCourseDetailsDTO getConcreteCourseDetails(long id) {
+        return concreteCourseRepository.getConcreteCourseDetails(id);
     }
 }

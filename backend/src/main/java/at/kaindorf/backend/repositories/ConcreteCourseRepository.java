@@ -1,5 +1,7 @@
 package at.kaindorf.backend.repositories;
 
+import at.kaindorf.backend.dto.ConcreteCourseDetailsDTO;
+import at.kaindorf.backend.dto.WeeklyCoursesDTO;
 import at.kaindorf.backend.model.Classroom;
 import at.kaindorf.backend.model.ConcreteCourse;
 import at.kaindorf.backend.model.Trainer;
@@ -18,4 +20,15 @@ public interface ConcreteCourseRepository extends JpaRepository<ConcreteCourse, 
 
     @Query("SELECT c FROM ConcreteCourse c WHERE c.trainer = ?1")
     List<ConcreteCourse> findConcreteCourseByTrainer(Trainer trainer);
+
+    // Unbedingt mit Daten Testen; Funktionen in Postgres console getestet
+    @Query("""
+           SELECT new at.kaindorf.backend.dto.WeeklyCoursesDTO(c.id, c.name, c.startTime, c.endTime)
+           FROM ConcreteCourse c
+           WHERE FUNCTION('date_part', 'week', c.startTime) = :weekOfYear AND FUNCTION('date_part', 'year', c.startTime) = :year
+    """)
+    List<WeeklyCoursesDTO> getConcreteCourseForWeekKey(int year, int weekOfYear);
+
+    @Query("SELECT new at.kaindorf.backend.dto.ConcreteCourseDetailsDTO(c.trainer, c.classroom, c.resources) FROM ConcreteCourse c WHERE c.id = :id")
+    ConcreteCourseDetailsDTO getConcreteCourseDetails(long id);
 }

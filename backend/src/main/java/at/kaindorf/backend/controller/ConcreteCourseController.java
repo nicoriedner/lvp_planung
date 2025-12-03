@@ -1,6 +1,8 @@
 package at.kaindorf.backend.controller;
 
 import at.kaindorf.backend.dto.ConcreteCourseDTO;
+import at.kaindorf.backend.dto.ConcreteCourseDetailsDTO;
+import at.kaindorf.backend.dto.WeeklyCoursesDTO;
 import at.kaindorf.backend.model.Classroom;
 import at.kaindorf.backend.model.Trainee;
 import at.kaindorf.backend.model.Trainer;
@@ -72,5 +74,21 @@ public class ConcreteCourseController {
     ){
         concreteCourseService.update(id, concreteCourseDTO);
         ResponseEntity.ok();
+    }
+
+    @GetMapping("/course-info/{weekKey}")
+    public List<WeeklyCoursesDTO> getConcreteCoursesForWeekKey(@PathVariable String weekKey) {
+        try {
+            List<WeeklyCoursesDTO> courses = concreteCourseService.getConcreteCoursesForWeekKey(weekKey);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+        return null;
+    }
+
+    @GetMapping("/course-details/{id}")
+    public ConcreteCourseDetailsDTO getConcreteCourseDetails(@PathVariable long id) {
+        return concreteCourseService.getConcreteCourseDetails(id);
     }
 }
