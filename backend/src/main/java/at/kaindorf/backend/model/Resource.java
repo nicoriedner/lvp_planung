@@ -21,7 +21,8 @@ public class Resource {
     private boolean isAvailable;
     @Enumerated(EnumType.STRING)
     private ResourceType resourceType;
-    @ManyToMany(mappedBy = "resources")
+
+    @ManyToMany
     @JoinTable(name = "resource_concrete_course",
             joinColumns = @JoinColumn(name = "concrete_course_id"),
             inverseJoinColumns = @JoinColumn(name = "resource_id")

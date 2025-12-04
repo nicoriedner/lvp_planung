@@ -80,8 +80,8 @@ public class ConcreteCourseService {
         int weekOfYear = Integer.parseInt(tokens[1]);
         return concreteCourseRepository.getConcreteCourseForWeekKey(year, weekOfYear);
     }
-
+/*
     public ConcreteCourseDetailsDTO getConcreteCourseDetails(long id) {
         return concreteCourseRepository.getConcreteCourseDetails(id);
-    }
+    }*/
 }

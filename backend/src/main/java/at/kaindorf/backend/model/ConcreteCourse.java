@@ -28,6 +28,6 @@ public class ConcreteCourse {
     private Classroom classroom;
     @ManyToOne
     private Trainer trainer;
-    @ManyToMany
+    @ManyToMany(mappedBy = "courses")
     List<Resource> resources;
 }

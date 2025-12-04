@@ -28,7 +28,7 @@ public interface ConcreteCourseRepository extends JpaRepository<ConcreteCourse, 
            WHERE FUNCTION('date_part', 'week', c.startTime) = :weekOfYear AND FUNCTION('date_part', 'year', c.startTime) = :year
     """)
     List<WeeklyCoursesDTO> getConcreteCourseForWeekKey(int year, int weekOfYear);
-
+/*
     @Query("SELECT new at.kaindorf.backend.dto.ConcreteCourseDetailsDTO(c.trainer, c.classroom, c.resources) FROM ConcreteCourse c WHERE c.id = :id")
-    ConcreteCourseDetailsDTO getConcreteCourseDetails(long id);
+    ConcreteCourseDetailsDTO getConcreteCourseDetails(long id);*/
 }

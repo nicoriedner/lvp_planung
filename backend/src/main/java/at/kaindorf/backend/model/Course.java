@@ -32,4 +32,6 @@ public class Course {
             inverseJoinColumns = @JoinColumn(name = "competence_id")
     )
     private Set<Competence> requiredCompetences;
+
+
 }

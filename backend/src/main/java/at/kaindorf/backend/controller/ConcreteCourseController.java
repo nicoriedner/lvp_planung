@@ -86,9 +86,9 @@ public class ConcreteCourseController {
         }
         return null;
     }
-
+/*
     @GetMapping("/course-details/{id}")
     public ConcreteCourseDetailsDTO getConcreteCourseDetails(@PathVariable long id) {
         return concreteCourseService.getConcreteCourseDetails(id);
-    }
+    }*/
 }
