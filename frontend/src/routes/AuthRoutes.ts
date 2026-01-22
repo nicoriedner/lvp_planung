@@ -4,7 +4,7 @@ import type { User, LoginResult } from '../interfaces/context/ContextInterfaces'
 
 // Configure axios instance
 const api = axios.create({
-    baseURL: 'http://localhost:5000/api', // Adjust port as needed
+    baseURL: 'http://localhost:8080/api', // Adjust port as needed
     withCredentials: true,
 });
 
